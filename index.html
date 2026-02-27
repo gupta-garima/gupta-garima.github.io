@@ -430,13 +430,63 @@
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+    /* ── HAMBURGER ── */
+    .nav-toggle-check { display: none; }
+    .nav-toggle-label {
+      display: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: var(--text);
+      line-height: 1;
+      padding: 0.2rem 0.4rem;
+      user-select: none;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 700px) {
-      .hero-inner { grid-template-columns: 1fr; }
-      .hero-right { flex-direction: row; flex-wrap: wrap; }
-      .hero-photo { width: 120px; height: 120px; }
-      .timeline-item { grid-template-columns: 1fr; }
+      /* Nav → hamburger */
+      .nav-toggle-label { display: block; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 57px; left: 0; right: 0;
+        background: rgba(249,249,251,0.98);
+        backdrop-filter: blur(12px);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.2rem 6vw 2rem;
+        gap: 1.4rem;
+        border-bottom: 1px solid var(--border);
+        z-index: 99;
+      }
+      .nav-links a { font-size: 1rem; }
+      .nav-toggle-check:checked ~ .nav-links { display: flex; }
+
+      /* Hero */
+      .hero { padding: 5rem 6vw 3rem; align-items: flex-start; }
+      .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-right { flex-direction: column; align-items: flex-start; gap: 1.2rem; padding-top: 0; }
+      .hero-photo { width: 110px; height: 110px; }
+      .hero h1 { font-size: 2.4rem; letter-spacing: -1px; }
+
+      /* Sections */
+      section { padding: 4rem 6vw; }
+      .section-title { margin-bottom: 2rem; }
+
+      /* Projects */
+      .projects-grid { grid-template-columns: 1fr; }
+
+      /* Timeline */
+      .timeline-item { grid-template-columns: 1fr; gap: 0.4rem; }
       .timeline-date { text-align: left; }
+      .timeline-content::before { display: none; }
+
+      /* Contact */
+      .contact-wrapper { padding: 2rem 1.5rem; }
+
+      /* Buttons */
+      .hero-btns { flex-direction: column; gap: 0.75rem; }
+      .btn { text-align: center; }
     }
   </style>
 </head>
@@ -445,6 +495,8 @@
   <!-- NAV -->
   <nav>
     <span class="nav-logo">GG</span>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle-check">
+    <label for="nav-toggle" class="nav-toggle-label">&#9776;</label>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
