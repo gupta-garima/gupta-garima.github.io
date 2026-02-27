@@ -462,17 +462,14 @@
       /* Hero */
       .hero { padding: 5rem 6vw 3rem; align-items: flex-start; }
       .hero-tag { display: none; }
-      .hero-inner {
-        display: grid;
-        grid-template-columns: 1fr 90px;
-        grid-template-areas:
-          "left photo"
-          "skills skills";
-        column-gap: 1rem;
-        row-gap: 2rem;
-        align-items: start;
+      .hero-inner { display: block; position: relative; }
+      .hero-photo {
+        position: absolute;
+        top: 0; right: 0;
+        width: 85px; height: 85px;
       }
-      .hero-photo { width: 90px; height: 90px; }
+      .hero-left { padding-right: 100px; }
+      .hero-skills-wrap { margin-top: 1.5rem; }
       .hero h1 { font-size: 2rem; letter-spacing: -1px; margin-bottom: 0.8rem; }
 
       /* Sections */
