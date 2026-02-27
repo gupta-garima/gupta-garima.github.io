@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Garima Gupta | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f9fb;
+      --surface: #ffffff;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card-shadow: 0 4px 24px rgba(108,99,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 6vw;
+      background: rgba(249,249,251,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.5px;
+      color: var(--accent);
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 7rem 6vw 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -150px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(167,139,250,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(108,99,255,0.1);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -2px;
+      max-width: 700px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+    .btn {
+      padding: 0.8rem 1.8rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 2px solid var(--accent);
+    }
+    .btn-primary:hover { background: #5a52d5; border-color: #5a52d5; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(108,99,255,0.3); }
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+    }
+    .btn-outline:hover { background: rgba(108,99,255,0.06); transform: translateY(-2px); }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 6vw;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── HERO INNER LAYOUT ── */
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      width: 100%;
+      max-width: 1100px;
+    }
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+      padding-top: 1rem;
+    }
+    .hero-photo {
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 18%;
+      border: 3px solid rgba(108,99,255,0.2);
+      box-shadow: 0 8px 32px rgba(108,99,255,0.15);
+      flex-shrink: 0;
+    }
+    .hero-bio {
+      font-size: 1.05rem; color: var(--muted); max-width: 520px;
+      line-height: 1.8; margin-top: 1.2rem;
+    }
+    .hero-skills-wrap { margin-top: 2rem; }
+    .hero-skills-label {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem;
+    }
+    .hero-right .hero-skills-wrap { margin-top: 0; width: 100%; }
+    .about-bio { color: var(--muted); font-size: 1.05rem; line-height: 1.8; }
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .skill-tag {
+      background: rgba(108,99,255,0.08);
+      color: var(--accent);
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid rgba(108,99,255,0.15);
+      transition: all 0.2s;
+    }
+    .skill-tag:hover { background: var(--accent); color: #fff; }
+
+    /* ── PROJECTS ── */
+    .project-category { margin-bottom: 3.5rem; }
+    .category-header { margin-bottom: 1.5rem; }
+    .category-title {
+      font-size: 1.2rem; font-weight: 700; letter-spacing: -0.3px; color: var(--text);
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.3rem;
+    }
+    .category-title::before {
+      content: ''; display: inline-block; width: 4px; height: 1.25em;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      border-radius: 2px; flex-shrink: 0;
+    }
+    .category-desc { color: var(--muted); font-size: 0.9rem; padding-left: 1.25rem; }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(108,99,255,0.15);
+    }
+    .card-img-wrap {
+      margin: -2rem -2rem 1.5rem;
+      height: 175px;
+      overflow: hidden;
+      border-radius: 16px 16px 0 0;
+    }
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover .card-img-wrap img {
+      transform: scale(1.03);
+    }
+    .project-type {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    .project-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.3px;
+    }
+    .project-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.5rem;
+    }
+    .project-tag {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+    .project-links { display: flex; gap: 0.8rem; }
+    .project-link {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: opacity 0.2s;
+    }
+    .project-link:hover { opacity: 0.7; }
+
+    /* ── WRITING ── */
+    .articles-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex; flex-direction: column;
+      text-decoration: none; color: inherit;
+    }
+    .article-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(108,99,255,0.15); }
+    .article-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .article-meta { padding: 1.2rem 1.4rem 1.4rem; flex: 1; display: flex; flex-direction: column; gap: 0.4rem; }
+    .article-pub {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .article-title {
+      font-size: 0.95rem; font-weight: 600; color: var(--text); line-height: 1.4; flex: 1;
+    }
+    .article-link {
+      font-size: 0.82rem; font-weight: 600; color: var(--accent);
+      text-decoration: none; margin-top: 0.6rem; transition: opacity 0.2s; display: inline-block;
+    }
+    .article-link:hover { opacity: 0.7; }
+
+    /* ── EXPERIENCE ── */
+    .timeline { display: flex; flex-direction: column; gap: 2rem; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .timeline-date {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+      padding-top: 0.2rem;
+      text-align: right;
+    }
+    .timeline-content {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+    }
+    .timeline-content::before {
+      content: '';
+      position: absolute;
+      left: -8px; top: 18px;
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 3px rgba(108,99,255,0.2);
+    }
+    .timeline-content h3 { font-size: 1rem; font-weight: 700; }
+    .timeline-content .company { color: var(--accent); font-weight: 600; font-size: 0.9rem; margin: 0.2rem 0 0.8rem; }
+    .timeline-content p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+
+    /* ── CONTACT ── */
+    .contact-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3rem;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+    }
+    .contact-wrapper h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.8rem; }
+    .contact-wrapper p { color: var(--muted); margin-bottom: 2rem; }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-right { flex-direction: row; flex-wrap: wrap; }
+      .hero-photo { width: 120px; height: 120px; }
+      .timeline-item { grid-template-columns: 1fr; }
+      .timeline-date { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">GG</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#writing">Writing</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO + ABOUT COMBINED -->
+  <div class="hero" id="about">
+    <div class="hero-inner">
+      <div>
+        <span class="hero-tag" style="animation: fadeUp 0.6s ease both;">Data Science &amp; Analytics</span>
+        <h1 style="animation: fadeUp 0.7s 0.1s ease both;">Hi, I'm <span>Garima Gupta</span></h1>
+        <p class="hero-bio" style="animation: fadeUp 0.7s 0.2s ease both;">
+          I'm a data and analytics professional working across analytics engineering, data science, and machine learning. My work spans the full pipeline: building production data models and ETL systems, running statistical analysis and EDA, training and deploying ML models, and turning complex data into decisions. I specialize in finding signal in messy, high-dimensional data, whether that's anomaly detection in financial records, deep learning for computer vision, or LLM-powered applications.
+        </p>
+        <div class="hero-btns" style="animation: fadeUp 0.7s 0.3s ease both;">
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="#contact" class="btn btn-outline">Get in Touch</a>
+        </div>
+      </div>
+      <div class="hero-right" style="animation: fadeUp 0.7s 0.15s ease both;">
+        <img src="images/headshot.png" alt="Garima Gupta" class="hero-photo" />
+        <div class="hero-skills-wrap">
+          <p class="hero-skills-label">Skills &amp; Tools</p>
+          <div class="skills-grid">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">R</span>
+            <span class="skill-tag">BigQuery</span>
+            <span class="skill-tag">PostgreSQL</span>
+            <span class="skill-tag">MongoDB</span>
+            <span class="skill-tag">AWS (EC2, S3, Lambda)</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">FastAPI</span>
+            <span class="skill-tag">Streamlit</span>
+            <span class="skill-tag">Tableau</span>
+            <span class="skill-tag">Power BI</span>
+            <span class="skill-tag">Machine Learning</span>
+            <span class="skill-tag">Deep Learning</span>
+            <span class="skill-tag">NLP</span>
+            <span class="skill-tag">LLM Prototyping</span>
+            <span class="skill-tag">Agentic AI</span>
+            <span class="skill-tag">Statistical Modeling</span>
+            <span class="skill-tag">Feature Engineering</span>
+            <span class="skill-tag">A/B Testing</span>
+            <span class="skill-tag">Anomaly Detection</span>
+            <span class="skill-tag">Business Intelligence</span>
+            <span class="skill-tag">KPI Reporting</span>
+            <span class="skill-tag">Data Storytelling</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <section id="projects" style="background: #f3f4f8; max-width:100%; padding: 6rem 6vw;">
+    <div style="max-width:1100px; margin:0 auto;">
+      <p class="section-label">My Work</p>
+      <h2 class="section-title">Projects</h2>
+
+      <!-- CATEGORY: DATA ANALYTICS & VISUALIZATION -->
+      <div class="project-category">
+        <div class="category-header reveal">
+          <h3 class="category-title">Data Analytics &amp; Visualization</h3>
+          <p class="category-desc">End-to-end analytical projects translating raw data into decisions through dashboards, storytelling, and statistical modeling.</p>
+        </div>
+        <div class="projects-grid">
+
+          <div class="project-card reveal">
+            <div class="card-img-wrap"><img src="images/projects/pfizer.png" alt="Pfizer Stock Volatility" /></div>
+            <p class="project-type">Data Analytics &amp; Visualization</p>
+            <h3>Volatility of Pfizer Stock (2020-2021)</h3>
+            <p>
+              Analyzed how COVID-19 milestones (vaccine approvals, adverse reactions, Twitter sentiment, and US death rates) drove Pfizer's stock volatility. Built an interactive Tableau data story for a non-technical audience, revealing a 0.703 correlation between positive public sentiment and stock price gains.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Tableau</span>
+              <span class="project-tag">Data Storytelling</span>
+              <span class="project-tag">Sentiment Analysis</span>
+              <span class="project-tag">Time Series</span>
+              <span class="project-tag">Choropleth Maps</span>
+            </div>
+            <div class="project-links">
+              <a href="pfizer-tableau-story.pdf" target="_blank" class="project-link">→ View Presentation</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal">
+            <div class="card-img-wrap"><img src="images/projects/spotify.png" alt="Spotify Chart Trends" /></div>
+            <p class="project-type">Cloud Data Engineering</p>
+            <h3>Spotify Chart Trends Dashboard</h3>
+            <p>
+              Built a cloud-based ETL pipeline and interactive analytics dashboard to explore Spotify chart data across 5 global regions (2017-2021). Raw data ingested from S3 and processed on EC2 into a hybrid database architecture: song metadata in DynamoDB and streaming facts in RDS (PostgreSQL). Exposed via AWS Lambda + API Gateway and visualized in Streamlit with Plotly charts.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">AWS S3</span>
+              <span class="project-tag">EC2</span>
+              <span class="project-tag">RDS PostgreSQL</span>
+              <span class="project-tag">DynamoDB</span>
+              <span class="project-tag">Lambda</span>
+              <span class="project-tag">Streamlit</span>
+              <span class="project-tag">Plotly</span>
+            </div>
+            <div class="project-links">
+              <a href="Group3_Project_Report.pdf" target="_blank" class="project-link">→ View Report</a>
+              <a href="https://github.com/gupta-garima/spotify-chart-trends" target="_blank" class="project-link">→ GitHub</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal">
+            <div class="card-img-wrap"><img src="images/projects/aviation.png" alt="Aviation media sentiment" /></div>
+            <p class="project-type">NLP &amp; Computational Social Science</p>
+            <h3>How Media Sentiment Fuels Public Fear of Aviation Disasters</h3>
+            <p>
+              Investigated whether negative sentiment in aviation news headlines drives fear-related search behavior. Collected headlines from NewsAPI and the NYT API and crash records from the Aviation Safety Network (2020-2025). Key finding: media coverage volume can be 14x higher than actual crashes, and fear searches spike only when negative sentiment crosses a threshold.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">R</span>
+              <span class="project-tag">NLP</span>
+              <span class="project-tag">Sentiment Analysis</span>
+              <span class="project-tag">Random Forest</span>
+              <span class="project-tag">Google Trends</span>
+              <span class="project-tag">NewsAPI</span>
+            </div>
+            <div class="project-links">
+              <a href="projects/aviation.html" class="project-link">→ View Project</a>
+              <a href="aviation-media-sentiment.pdf" target="_blank" class="project-link">→ View Presentation</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CATEGORY: MACHINE LEARNING -->
+      <div class="project-category">
+        <div class="category-header reveal">
+          <h3 class="category-title">Machine Learning &amp; Computer Vision</h3>
+          <p class="category-desc">Deep learning models and vision systems trained from scratch and deployed as production APIs.</p>
+        </div>
+        <div class="projects-grid">
+
+          <div class="project-card reveal">
+            <div class="card-img-wrap"><img src="images/projects/wildlife.png" alt="Wildlife classification" /></div>
+            <p class="project-type">Deep Learning &amp; Computer Vision</p>
+            <h3>Wildlife Species Classification Using Deep Learning</h3>
+            <p>
+              Trained EfficientNet-B3 with progressive fine-tuning on the Caltech Camera Traps Dataset (243K images, 140 locations) to classify 15 wildlife species from noisy, occluded camera trap imagery. Applied focal loss for class imbalance, active learning via uncertainty sampling, and Grad-CAM for interpretability. Achieved 62% accuracy and 0.63 weighted F-1 on held-out locations.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">PyTorch</span>
+              <span class="project-tag">EfficientNet-B3</span>
+              <span class="project-tag">Transfer Learning</span>
+              <span class="project-tag">Active Learning</span>
+              <span class="project-tag">Grad-CAM</span>
+              <span class="project-tag">Computer Vision</span>
+            </div>
+            <div class="project-links">
+              <a href="projects/wildlife.html" class="project-link">→ View Project</a>
+              <a href="wildlife-dl-deck.pdf" target="_blank" class="project-link">→ View Presentation</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal">
+            <div class="card-img-wrap"><img src="projects/foodvision-hotdog.png" alt="FoodVision food recognition" /></div>
+            <p class="project-type">Computer Vision &amp; Search</p>
+            <h3>FoodVision: Image-Based Food Recognition API</h3>
+            <p>
+              Built a production-ready REST API that identifies food from photos, detects ingredients, and estimates calorie content. Uses OpenAI's CLIP model to generate image embeddings, matched against 249,000+ pre-computed ingredient vectors from the USDA FoodData Central database. Fully containerized with Docker and served via FastAPI.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">PyTorch</span>
+              <span class="project-tag">CLIP</span>
+              <span class="project-tag">FastAPI</span>
+              <span class="project-tag">Docker</span>
+              <span class="project-tag">Vector Search</span>
+              <span class="project-tag">Python</span>
+            </div>
+            <div class="project-links">
+              <a href="projects/foodvision.html" class="project-link">→ View Project</a>
+              <a href="https://github.com/gupta-garima/foodvision-fastapi" target="_blank" class="project-link">→ GitHub</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CATEGORY: GENERATIVE AI -->
+      <div class="project-category">
+        <div class="category-header reveal">
+          <h3 class="category-title">Generative AI</h3>
+          <p class="category-desc">Generative models, LLM fine-tuning, and AI-powered applications built from the ground up.</p>
+        </div>
+        <div class="projects-grid">
+
+          <div class="project-card reveal">
+            <div class="card-img-wrap"><img src="projects/gan_final.png" alt="GAN generated digits" /></div>
+            <p class="project-type">Applied Generative AI</p>
+            <h3>Generative AI Model Suite: GAN, Diffusion, EBM &amp; RL-Trained LLM</h3>
+            <p>
+              Designed and deployed 5 generative AI models as production-style REST APIs using FastAPI and Docker. Built a GAN to generate handwritten digits, trained DDPM diffusion and energy-based models for image synthesis on CIFAR-10, and applied reinforcement learning to post-train GPT-2 to follow a strict response format, mirroring RLHF techniques used to align large language models.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">PyTorch</span>
+              <span class="project-tag">FastAPI</span>
+              <span class="project-tag">Docker</span>
+              <span class="project-tag">GAN</span>
+              <span class="project-tag">DDPM</span>
+              <span class="project-tag">GPT-2</span>
+              <span class="project-tag">RLHF</span>
+            </div>
+            <div class="project-links">
+              <a href="projects/genai.html" class="project-link">→ View Project</a>
+              <a href="https://github.com/gupta-garima/apans5560" target="_blank" class="project-link">→ GitHub</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal">
+            <div class="card-img-wrap"><img src="images/projects/reviewchew.png" alt="ReviewChew app" /></div>
+            <p class="project-type">Database Engineering &amp; Full-Stack</p>
+            <h3>ReviewChew: AI-Powered Restaurant Review App</h3>
+            <p>
+              Deployed a full-stack web application that allows users to search for restaurants and receive AI-generated summaries of reviews. Integrated structured and unstructured data from the Yelp Open Dataset (6M+ reviews, 100K+ businesses). Used PostgreSQL for relational data, MongoDB for LLM-generated summaries, and Amazon S3 for images. Containerized all services with Docker.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Flask</span>
+              <span class="project-tag">PostgreSQL</span>
+              <span class="project-tag">MongoDB</span>
+              <span class="project-tag">Docker</span>
+              <span class="project-tag">LLM</span>
+              <span class="project-tag">Leaflet.js</span>
+            </div>
+            <div class="project-links">
+              <a href="reviewchew-presentation.pdf" target="_blank" class="project-link">→ View Presentation</a>
+              <a href="https://github.com/wendyluu01/Restaurant-Review-App" target="_blank" class="project-link">→ GitHub</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CATEGORY: RISK & ANOMALY ANALYTICS -->
+      <div class="project-category">
+        <div class="category-header reveal">
+          <h3 class="category-title">Risk &amp; Anomaly Analytics</h3>
+          <p class="category-desc">Fraud detection, pricing anomalies, and behavioral signal engineering for audit and compliance use cases.</p>
+        </div>
+        <div class="projects-grid">
+
+          <div class="project-card reveal">
+            <div class="card-img-wrap" style="background:#fff;"><img src="projects/ts_sma.png" alt="Bitcoin anomaly detection chart" style="object-fit: contain;" /></div>
+            <p class="project-type">Time Series &amp; Anomaly Detection</p>
+            <h3>Bitcoin Price Anomaly Detection: SMA, EWMA &amp; Prophet</h3>
+            <p>
+              Applied three anomaly detection methods to 10 years of Bitcoin daily prices (2014-2024). Compared a 30-day Simple Moving Average, Exponential Weighted Moving Average, and Meta's Prophet model with Bayesian forecasting. Validated methods through residual histograms, Q-Q plots, and STL decomposition, identifying 36 high-confidence anomalies agreed upon by all three methods.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Prophet</span>
+              <span class="project-tag">SMA</span>
+              <span class="project-tag">EWMA</span>
+              <span class="project-tag">STL Decomposition</span>
+              <span class="project-tag">Anomaly Detection</span>
+            </div>
+            <div class="project-links">
+              <a href="projects/timeseries.html" class="project-link">→ View Project</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal">
+            <div class="card-img-wrap" style="background:#fff;"><img src="projects/cc_top_vendors.png" alt="Top vendors by transaction count" style="object-fit: contain;" /></div>
+            <p class="project-type">Feature Engineering &amp; Fraud Analytics</p>
+            <h3>Purchase Card Fraud Detection: 6 Behavioral Features</h3>
+            <p>
+              Analyzed a public-sector purchase card (pcard) dataset to surface compliance risks through EDA and feature engineering. Explored spending by merchant category, vendor concentration, and off-hours timing, then built six cardholder-level behavioral features to power an unsupervised anomaly detection model.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Pandas</span>
+              <span class="project-tag">Feature Engineering</span>
+              <span class="project-tag">Shannon Entropy</span>
+              <span class="project-tag">Unsupervised ML</span>
+              <span class="project-tag">EDA</span>
+            </div>
+            <div class="project-links">
+              <a href="projects/creditcard.html" class="project-link">→ View Project</a>
+            </div>
+          </div>
+
+          <div class="project-card reveal">
+            <div class="card-img-wrap" style="background:#fff;"><img src="projects/hc_l2_payments_scatter.png" alt="Hospital charges vs payments analysis" style="object-fit: contain;" /></div>
+            <p class="project-type">Healthcare Analytics &amp; Feature Engineering</p>
+            <h3>Hospital Pricing Anomaly Detection: 15 Investigative Leads</h3>
+            <p>
+              Conducted an exhaustive EDA on Medicare inpatient charge data, structured as 15 business-hypothesis-driven leads. Built features including charge-to-Medicare ratios, within-DRG z-scores, Mahalanobis distance, pricing tilt, market concentration, and region-adjusted residuals to surface anomalous hospital billing behavior.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Mahalanobis Distance</span>
+              <span class="project-tag">DRG Analysis</span>
+              <span class="project-tag">Feature Engineering</span>
+              <span class="project-tag">Healthcare Pricing</span>
+            </div>
+            <div class="project-links">
+              <a href="projects/healthcare.html" class="project-link">→ View Project</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <section id="writing">
+    <p class="section-label">Sports Analytics Writing</p>
+    <h2 class="section-title">Data-Driven Sports Journalism</h2>
+    <p style="color:var(--muted); font-size:1.05rem; line-height:1.8; max-width:680px; margin-bottom:2.5rem;">
+      Articles written for The Tactician, a sports analytics publication, applying statistical methods and data analysis to uncover patterns in professional baseball.
+    </p>
+    <div class="articles-list">
+
+      <a class="article-card reveal" href="https://aayushsethi37.wixsite.com/mysite/post/statistical-analysis-ronald-acu%C3%B1a-jr-s-dominant-offensive-season" target="_blank">
+        <img class="article-thumb" src="images/article-acuna.png" alt="Ronald Acuña Jr. article" />
+        <div class="article-meta">
+          <p class="article-pub">The Tactician</p>
+          <p class="article-title">Statistical Analysis: Ronald Acuña Jr.'s Dominant Offensive Season</p>
+          <span class="article-link">→ Read Article</span>
+        </div>
+      </a>
+
+      <a class="article-card reveal" href="https://aayushsethi37.wixsite.com/mysite/post/four-seam-changeup-slider-curve-or-cutter-a-statistical-breakdown-of-pitches-used" target="_blank">
+        <img class="article-thumb" src="images/article-pitches.png" alt="Pitch breakdown article" />
+        <div class="article-meta">
+          <p class="article-pub">The Tactician</p>
+          <p class="article-title">Four Seam, Changeup, Slider, Curve or Cutter: A Statistical Breakdown of Pitches Used</p>
+          <span class="article-link">→ Read Article</span>
+        </div>
+      </a>
+
+      <a class="article-card reveal" href="https://aayushsethi37.wixsite.com/mysite/post/does-playing-at-home-really-matter" target="_blank">
+        <img class="article-thumb" src="images/article-home.png" alt="Home advantage article" />
+        <div class="article-meta">
+          <p class="article-pub">The Tactician</p>
+          <p class="article-title">Does Playing at Home Really Matter?</p>
+          <span class="article-link">→ Read Article</span>
+        </div>
+      </a>
+
+      <a class="article-card reveal" href="https://aayushsethi37.wixsite.com/mysite/post/topmlbpitchers" target="_blank">
+        <img class="article-thumb" src="images/article-pitchers.png" alt="Top MLB pitchers article" />
+        <div class="article-meta">
+          <p class="article-pub">The Tactician</p>
+          <p class="article-title">Top MLB Pitchers: A Statistical Analysis</p>
+          <span class="article-link">→ Read Article</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">Experience</p>
+    <h2 class="section-title">Work Experience</h2>
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <span class="timeline-date">May - Dec 2025</span>
+        <div class="timeline-content">
+          <h3>IT Data Analytics and Internal Audit Intern</h3>
+          <p class="company">Embecta &nbsp;·&nbsp; Parsippany-Troy Hills, NJ</p>
+          <p>Led the implementation of agentic AI to support internal audit and people risk analysis, automating observation tracking and generating structured reports that reduced manual effort and improved decision turnaround time. Operationalized GenAI across ERM and audit workflows to detect behavioral and process risk patterns, synthesize qualitative inputs, and deliver executive-ready insights to inform remediation and resource prioritization. Developed and optimized T&amp;E and SOX dashboards in Power BI, resolving DAX and data model challenges to provide real-time visibility into control performance, exceptions, and remediation progress. Co-developed disaster recovery strategies, leading scenario analysis and drafting Business Impact Analysis (BIA) documentation to align with audit, compliance, and business continuity requirements.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-date">Sep - Dec 2025</span>
+        <div class="timeline-content">
+          <h3>Capstone Consultant (GTM, Growth Analytics)</h3>
+          <p class="company">Dig Inn &nbsp;·&nbsp; Apprenticeship &nbsp;·&nbsp; New York City Metropolitan Area</p>
+          <p>Directed the technical analytics workstream for a consulting engagement focused on identifying geographic growth and expansion opportunities. Conducted zipcode-level market analysis using Google Cloud BigQuery and Python, integrating transaction, demographic, and location data to uncover underserved customer segments and competitive whitespace. Developed data-driven frameworks to evaluate demand potential, customer density, and market saturation, translating findings into business-facing recommendations to inform expansion strategy. Delivered stakeholder-ready outputs including insight summaries and reports to support prioritization for a 2026 loyalty program launch.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-date">Nov 2023 - Aug 2024</span>
+        <div class="timeline-content">
+          <h3>Continuous Process Improvement Coordinator, People Analytics</h3>
+          <p class="company">Intact Technology &nbsp;·&nbsp; Reston, VA</p>
+          <p>Analyzed workforce and HR process data to evaluate program effectiveness, automate workflows, and improve operational transparency, resulting in a 15% efficiency increase and a 40% reduction in manual effort. Built automated people analytics reporting using ServiceNow APIs and Power BI to track employee certifications, program completion, and compliance metrics in real time, supporting leadership decisions and maintaining Elite status.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-date">Jul - Oct 2023</span>
+        <div class="timeline-content">
+          <h3>Software Engineering: Artificial Intelligence Intern</h3>
+          <p class="company">Intact Technology &nbsp;·&nbsp; Reston, VA</p>
+          <p>Engineered an OpenAI-powered LLM prototype with token optimization to automate operational workflows, improving process efficiency by 30% and achieving 70% accuracy through iterative model evaluation and validation testing. Collaborated with cross-functional teams to deploy ML solutions in live business environments, translating complex AI/ML insights into actionable recommendations for non-technical stakeholders. Developed predictive models on employee utilization and behavior data to support workforce planning and capacity forecasting, improving resource allocation accuracy by 35%.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-date">Jun - Aug 2022</span>
+        <div class="timeline-content">
+          <h3>Data Analyst Intern</h3>
+          <p class="company">Intact Technology &nbsp;·&nbsp; Reston, VA</p>
+          <p>Built a SQL-driven BigQuery repository integrating multi-source financial data from Harvest and Salesforce, enabling unified revenue and portfolio performance reporting. Developed automated data pipelines and custom database views to track revenue, ROI, and project status across initiatives. Implemented NLP sentiment analysis in Python to process unstructured feedback, delivering Power BI insights for executive leadership.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal">
+        <span class="timeline-date">Feb - May 2022</span>
+        <div class="timeline-content">
+          <h3>Data Analytics Intern</h3>
+          <p class="company">Associated Students UC Berkeley, Chief Finance Office &nbsp;·&nbsp; Berkeley, CA</p>
+          <p>Built financial models and conducted data analytics to allocate funds for student organizations, collaborating with directors to enhance budget accuracy, ensure fiscal responsibility, and improve financial oversight.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" style="background: #f3f4f8; max-width:100%; padding: 6rem 6vw;">
+    <div style="max-width:1100px; margin:0 auto;">
+      <p class="section-label">Education</p>
+      <h2 class="section-title">Academic Background</h2>
+      <div class="timeline">
+
+        <div class="timeline-item reveal">
+          <span class="timeline-date">Sep 2024 - Dec 2025</span>
+          <div class="timeline-content">
+            <h3>Master of Science in Applied Analytics</h3>
+            <p class="company">Columbia University &nbsp;·&nbsp; New York, NY</p>
+            <p style="margin-top:0.5rem; color:var(--muted); font-size:0.92rem;">Relevant Coursework: Strategy and Analytics, Data Engineering, Anomaly Detection, Deep Learning, Cloud Computing, Applied Gen AI</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <span class="timeline-date">Aug 2020 - May 2024</span>
+          <div class="timeline-content">
+            <h3>Bachelor of Arts &nbsp;·&nbsp; Data Science, Cognitive Science &amp; Sociology</h3>
+            <p class="company">University of California, Berkeley &nbsp;·&nbsp; Berkeley, CA</p>
+            <p style="margin-top:0.5rem; color:var(--muted); font-size:0.92rem;">Relevant Coursework: Structure and Interpretation of Computer Programs, Data Structures, Introduction to Artificial Intelligence, Principles &amp; Techniques of Data Science, Foundations of Data Science, Concepts of Probability, Human Contexts and Ethics of Data, Advanced Business Analytics</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-wrapper reveal">
+      <h2>Let's connect</h2>
+      <p>Open to full-time roles and collaborations in analytics engineering, data science &amp; ML.</p>
+      <div class="contact-links">
+        <a href="mailto:01garimagupta@gmail.com" class="contact-link">✉ Email</a>
+        <a href="https://www.linkedin.com/in/garima-gupta-a78a66183/" target="_blank" class="contact-link">in LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Garima Gupta.</p>
+  </footer>
+
+  <script>
+    // Scroll reveal animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

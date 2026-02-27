@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wildlife Species Classification | Garima Gupta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f9fb;
+      --surface: #ffffff;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card-shadow: 0 4px 24px rgba(108,99,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 6vw;
+      background: rgba(249,249,251,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; color: var(--accent); text-decoration: none; }
+    .back-link {
+      font-size: 0.9rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      padding: 8rem 6vw 4rem;
+      max-width: 900px; margin: 0 auto;
+    }
+    .project-type {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+      display: inline-block;
+      background: rgba(108,99,255,0.1); padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700;
+      letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-desc { font-size: 1.1rem; color: var(--muted); max-width: 680px; line-height: 1.8; }
+    .hero-links { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.75rem 1.6rem; border-radius: 999px; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer; text-decoration: none;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-primary { background: var(--accent); color: #fff; border: 2px solid var(--accent); }
+    .btn-primary:hover { background: #5a52d5; border-color: #5a52d5; transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+    .btn-outline:hover { background: rgba(108,99,255,0.06); transform: translateY(-2px); }
+
+    /* TAGS */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .tag {
+      background: rgba(108,99,255,0.08); color: var(--accent);
+      padding: 0.3rem 0.9rem; border-radius: 999px; font-size: 0.82rem;
+      font-weight: 500; border: 1px solid rgba(108,99,255,0.15);
+    }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* SECTIONS */
+    .section { padding: 4rem 6vw; max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .section h2 {
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem); font-weight: 700;
+      letter-spacing: -0.8px; margin-bottom: 1.5rem;
+    }
+    .section p { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 1rem; }
+
+    /* STAT GRID */
+    .stat-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1rem; margin: 2rem 0;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1rem; text-align: center;
+      box-shadow: var(--card-shadow);
+    }
+    .stat-value { font-size: 1.6rem; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+    .stat-label { font-size: 0.78rem; font-weight: 600; color: var(--muted); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* TABLES */
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+    th {
+      text-align: left; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase; color: var(--accent);
+      padding: 0.7rem 1rem; border-bottom: 2px solid var(--border);
+    }
+    td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.92rem; color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { font-weight: 600; color: var(--accent); }
+    .f1-low { color: #ef4444; font-weight: 600; }
+    .f1-mid { color: #f59e0b; font-weight: 600; }
+    .f1-high { color: #10b981; font-weight: 600; }
+
+    /* CALLOUT */
+    .callout {
+      background: rgba(108,99,255,0.06); border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0; padding: 1rem 1.2rem;
+      margin: 1.2rem 0; font-size: 0.92rem; color: var(--text);
+    }
+
+    /* TWO-COL */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0; }
+    .info-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1.4rem; box-shadow: var(--card-shadow);
+    }
+    .info-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--accent); margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .info-card ul { list-style: none; padding: 0; }
+    .info-card ul li {
+      font-size: 0.9rem; color: var(--muted); padding: 0.3rem 0;
+      border-bottom: 1px solid var(--border); display: flex; justify-content: space-between;
+    }
+    .info-card ul li:last-child { border-bottom: none; }
+    .info-card ul li span { font-weight: 600; color: var(--text); }
+
+    /* IMAGE GRIDS */
+    .image-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem; margin: 2rem 0;
+    }
+    .image-row-2 {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem; margin: 2rem 0;
+    }
+    .image-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; box-shadow: var(--card-shadow);
+    }
+    .image-box img { width: 100%; display: block; }
+    .image-box .caption {
+      padding: 0.6rem 1rem; font-size: 0.8rem; font-weight: 600;
+      color: var(--muted); text-align: center; border-top: 1px solid var(--border);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 2rem; color: var(--muted);
+      font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem;
+    }
+
+    @media (max-width: 700px) {
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: 1fr; }
+      .image-row { grid-template-columns: 1fr; }
+      .image-row-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 400px) {
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">GG</a>
+    <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="project-type">Deep Learning &amp; Computer Vision</span>
+    <h1>Wildlife Species Classification<br><span>Using Deep Learning</span></h1>
+    <p class="hero-desc">
+      Trained EfficientNet-B3 with progressive fine-tuning on 243K camera trap images from 140 field locations to classify 15 wildlife species under severe real-world constraints: occlusion, motion blur, extreme class imbalance, and location-disjoint train/test splits.
+    </p>
+    <div class="tags">
+      <span class="tag">PyTorch</span>
+      <span class="tag">EfficientNet-B3</span>
+      <span class="tag">Transfer Learning</span>
+      <span class="tag">Active Learning</span>
+      <span class="tag">Grad-CAM</span>
+      <span class="tag">Focal Loss</span>
+      <span class="tag">Computer Vision</span>
+      <span class="tag">Python</span>
+    </div>
+    <div class="hero-links">
+      <a href="../wildlife-dl-deck.pdf" target="_blank" class="btn btn-primary">View Presentation</a>
+      <a href="../index.html#projects" class="btn btn-outline">← Back</a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- DATASET -->
+  <div class="section">
+    <p class="section-label">Dataset</p>
+    <h2>Caltech Camera Traps (CCT-20)</h2>
+    <p>
+      The CCT-20 subset contains images captured by motion-triggered camera traps deployed across 140 distinct geographic locations. Images are inherently challenging: partial occlusions, varying lighting conditions, motion blur, and empty frames are common. The dataset spans 15 classes with severe imbalance; some species appear thousands of times while others appear fewer than 10 times in the test set.
+    </p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-value">243K</div>
+        <div class="stat-label">Total Images</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">106K</div>
+        <div class="stat-label">Train Split</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">12.7K</div>
+        <div class="stat-label">Validation</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">140</div>
+        <div class="stat-label">Camera Locations</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      Train and test splits are location-disjoint: cameras that appear in training never appear in testing. This simulates a real deployment scenario where the model must generalize to entirely new environments.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- MODEL -->
+  <div class="section">
+    <p class="section-label">Architecture</p>
+    <h2>EfficientNet-B3 with Progressive Fine-Tuning</h2>
+    <p>
+      EfficientNet-B3 was selected for its strong accuracy-to-parameter tradeoff on natural image benchmarks. Rather than fine-tuning the full network from the start, training proceeded in two stages: first training only the classification head with the backbone frozen, then unlocking all layers for full fine-tuning with a reduced learning rate. This prevents catastrophic forgetting of ImageNet features early in training.
+    </p>
+
+    <div class="two-col">
+      <div class="info-card">
+        <h4>Training Setup</h4>
+        <ul>
+          <li>Optimizer <span>AdamW</span></li>
+          <li>LR Schedule <span>Cosine Annealing</span></li>
+          <li>Loss <span>Focal + Class-Weighted CE</span></li>
+          <li>Test-Time Aug. <span>5-crop TTA</span></li>
+          <li>Input Size <span>300 × 300</span></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Augmentation Pipeline</h4>
+        <ul>
+          <li>Geometric <span>Random crop, ±15° rotation</span></li>
+          <li>Flip <span>Horizontal flip</span></li>
+          <li>Color <span>Brightness / contrast / saturation jitter</span></li>
+          <li>Blur <span>Gaussian blur</span></li>
+          <li>Occlusion <span>Cutout / Random erase</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p>
+      Focal loss down-weighted easy negatives (the dominant "empty" and common-species frames) and forced the model to focus learning signal on rare, hard-to-classify species. Class-weighted cross-entropy was applied as a complementary strategy during the frozen-backbone phase.
+    </p>
+
+    <div class="image-row-2" style="grid-template-columns: 1fr; max-width: 640px;">
+      <div class="image-box">
+        <img src="wildlife_learning_curves.png" alt="Learning curves: validation accuracy and F1 over 20 epochs" />
+        <div class="caption">Validation accuracy and F1 across 20 training epochs</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ACTIVE LEARNING -->
+  <div class="section">
+    <p class="section-label">Strategy</p>
+    <h2>Active Learning via Uncertainty Sampling</h2>
+    <p>
+      To efficiently use labeling budget, an active learning loop was integrated into training. After each round, the model scored unlabeled images using prediction entropy. Images where the model was most uncertain (highest entropy across class probabilities) were flagged for annotation first. This iterative approach improved performance on rare classes more efficiently than random sampling would allow.
+    </p>
+    <div class="callout">
+      Uncertainty sampling consistently surfaced visually ambiguous examples: partially occluded animals, species with overlapping morphology (e.g., coyote vs. dog), and low-light frames. These are exactly the failure modes that hurt model performance most.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- RESULTS -->
+  <div class="section">
+    <p class="section-label">Results</p>
+    <h2>Per-Class Performance</h2>
+    <p>Overall accuracy: <strong>62.2%</strong> &nbsp;·&nbsp; Weighted F-1: <strong>0.632</strong> &nbsp;·&nbsp; Macro F-1: <strong>0.527</strong> &nbsp;·&nbsp; Weighted Precision: <strong>0.701</strong></p>
+
+    <table style="margin-top: 1.5rem;">
+      <thead>
+        <tr><th>Class</th><th>Precision</th><th>Recall</th><th>F1</th><th>Support</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Car</td><td>0.990</td><td>0.994</td><td class="f1-high">0.992</td><td>2,268</td></tr>
+        <tr><td>Coyote</td><td>0.818</td><td>0.648</td><td class="f1-high">0.722</td><td>2,765</td></tr>
+        <tr><td>Opossum</td><td>0.894</td><td>0.603</td><td class="f1-high">0.720</td><td>4,524</td></tr>
+        <tr><td>Bobcat</td><td>0.700</td><td>0.547</td><td class="f1-mid">0.615</td><td>1,182</td></tr>
+        <tr><td>Cat</td><td>0.675</td><td>0.591</td><td class="f1-mid">0.631</td><td>4,047</td></tr>
+        <tr><td>Dog</td><td>0.627</td><td>0.548</td><td class="f1-mid">0.584</td><td>697</td></tr>
+        <tr><td>Raccoon</td><td>0.648</td><td>0.440</td><td class="f1-mid">0.525</td><td>3,199</td></tr>
+        <tr><td>Skunk</td><td>0.592</td><td>0.381</td><td class="f1-mid">0.464</td><td>1,261</td></tr>
+        <tr><td>Bird</td><td>0.511</td><td>0.425</td><td class="f1-mid">0.464</td><td>1,124</td></tr>
+        <tr><td>Rabbit</td><td>0.531</td><td>0.365</td><td class="f1-mid">0.436</td><td>2,048</td></tr>
+        <tr><td>Squirrel</td><td>0.612</td><td>0.328</td><td class="f1-mid">0.428</td><td>2,148</td></tr>
+        <tr><td>Badger</td><td>0.000</td><td>0.000</td><td class="f1-low">0.000</td><td>4</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>Badger: F1 = 0.0.</strong> Only 4 test samples existed for this class. With near-zero support and no representation in active learning rounds, the model never had enough signal to learn badger-specific features. This is a fundamental data limitation, not a modeling failure.
+    </div>
+
+    <div class="image-row-2">
+      <div class="image-box">
+        <img src="wildlife_class_imbalance.png" alt="Scatter plot: class frequency vs F1 score" />
+        <div class="caption">Class frequency vs. F1 score: lower support correlates with lower performance</div>
+      </div>
+      <div class="image-box">
+        <img src="wildlife_confusion_matrix.png" alt="Confusion matrix with TTA" />
+        <div class="caption">Confusion matrix (EfficientNet-B3 with TTA)</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- GRAD-CAM -->
+  <div class="section">
+    <p class="section-label">Interpretability</p>
+    <h2>Grad-CAM Attention Heatmaps</h2>
+    <p>
+      Gradient-weighted Class Activation Mapping (Grad-CAM) was applied to the final convolutional block to visualize which image regions most influenced each prediction. Heatmaps were generated for a sample of correctly and incorrectly classified images across all classes.
+    </p>
+    <p>
+      On high-confidence correct predictions (car, opossum, coyote), Grad-CAM consistently highlighted anatomically meaningful regions: vehicle body and wheels for cars, distinctive facial markings and fur texture for mammals. On misclassified examples, attention diffused to background vegetation or motion artifacts, revealing that the model was sometimes triggered by context rather than the animal itself.
+    </p>
+    <div class="image-row">
+      <div class="image-box">
+        <img src="wildlife_gradcam_coyote.png" alt="Grad-CAM heatmap for coyote" />
+        <div class="caption">Coyote: tight attention on body</div>
+      </div>
+      <div class="image-box">
+        <img src="wildlife_gradcam_bird.png" alt="Grad-CAM heatmap for bird" />
+        <div class="caption">Bird: diffuse attention on ground</div>
+      </div>
+      <div class="image-box">
+        <img src="wildlife_gradcam_bobcat.png" alt="Grad-CAM heatmap for bobcat" />
+        <div class="caption">Bobcat: attention on background vegetation</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      For the cat/dog confusion cases, Grad-CAM showed the model attending to body posture and surroundings rather than discriminative facial features, suggesting that more targeted augmentation or a multi-scale attention mechanism could address this failure mode.
+    </div>
+
+    <p class="section-label" style="margin-top: 2rem;">Feature Maps</p>
+    <p>Activations from Layer 0 (early, texture/color edges) vs. Layer 8 (deep, sparse semantic features) illustrate how representations evolve through the network.</p>
+    <div class="image-row-2">
+      <div class="image-box">
+        <img src="wildlife_feature_layer0.png" alt="Layer 0 feature maps" />
+        <div class="caption">Layer 0: low-level texture and color activations</div>
+      </div>
+      <div class="image-box">
+        <img src="wildlife_feature_layer8.png" alt="Layer 8 feature maps" />
+        <div class="caption">Layer 8: sparse, high-level semantic features</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- FINDINGS -->
+  <div class="section">
+    <p class="section-label">Findings &amp; Limitations</p>
+    <h2>Key Takeaways</h2>
+    <p>
+      The model generalizes well to unseen camera locations for high-support species, achieving F1 above 0.70 for car, coyote, and opossum. Performance degrades predictably with lower support and greater visual overlap with other classes.
+    </p>
+
+    <div class="two-col">
+      <div class="info-card">
+        <h4>What Worked</h4>
+        <ul>
+          <li>Progressive fine-tuning <span>Stable convergence</span></li>
+          <li>Focal loss <span>Reduced majority-class dominance</span></li>
+          <li>Active learning <span>Efficient rare-class coverage</span></li>
+          <li>TTA <span>+1-2% accuracy boost</span></li>
+          <li>Grad-CAM <span>Verified anatomical attention</span></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Rare classes <span>Badger: only 4 test samples</span></li>
+          <li>Dog/cat confusion <span>Morphological overlap</span></li>
+          <li>No temporal context <span>Each frame treated independently</span></li>
+          <li>No detection stage <span>Full-image classification only</span></li>
+          <li>Location shift <span>Domain gap at new sites</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p>
+      Future work would benefit from a two-stage pipeline (detection → classification), incorporating temporal context across frames within a camera burst, and collecting more labeled examples for the rarest species through targeted field campaigns.
+    </p>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Garima Gupta &nbsp;·&nbsp; <a href="../index.html" style="color:var(--accent); text-decoration:none;">Back to Portfolio</a></p>
+  </footer>
+
+</body>
+</html>

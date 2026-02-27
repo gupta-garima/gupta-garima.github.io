@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bitcoin Anomaly Detection | Garima Gupta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f9fb;
+      --surface: #ffffff;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card-shadow: 0 4px 24px rgba(108,99,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 6vw;
+      background: rgba(249,249,251,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; color: var(--accent); text-decoration: none; }
+    .back-link {
+      font-size: 0.9rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero { padding: 8rem 6vw 4rem; max-width: 900px; margin: 0 auto; }
+    .project-type {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+      display: inline-block;
+      background: rgba(108,99,255,0.1); padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700;
+      letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-desc { font-size: 1.1rem; color: var(--muted); max-width: 680px; line-height: 1.8; }
+    .hero-links { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.75rem 1.6rem; border-radius: 999px; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer; text-decoration: none;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-primary { background: var(--accent); color: #fff; border: 2px solid var(--accent); }
+    .btn-primary:hover { background: #5a52d5; border-color: #5a52d5; transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+    .btn-outline:hover { background: rgba(108,99,255,0.06); transform: translateY(-2px); }
+
+    /* TAGS */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .tag {
+      background: rgba(108,99,255,0.08); color: var(--accent);
+      padding: 0.3rem 0.9rem; border-radius: 999px; font-size: 0.82rem;
+      font-weight: 500; border: 1px solid rgba(108,99,255,0.15);
+    }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* SECTIONS */
+    .section { padding: 4rem 6vw; max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .section h2 {
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem); font-weight: 700;
+      letter-spacing: -0.8px; margin-bottom: 1.5rem;
+    }
+    .section p { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 1rem; }
+
+    /* STATS ROW */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem; margin: 2rem 0;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.4rem 1.2rem;
+      box-shadow: var(--card-shadow); text-align: center;
+    }
+    .stat-value { font-size: 2rem; font-weight: 700; color: var(--accent); letter-spacing: -1px; }
+    .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; font-weight: 500; }
+
+    /* METHOD TABLE */
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    th {
+      text-align: left; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase; color: var(--accent);
+      padding: 0.7rem 1rem; border-bottom: 2px solid var(--border);
+    }
+    td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.92rem; color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { font-weight: 600; color: var(--accent); }
+
+    /* CHART */
+    .chart-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: var(--card-shadow); margin: 1.5rem 0;
+    }
+    .chart-wrap img { width: 100%; display: block; }
+    .chart-caption {
+      padding: 0.8rem 1.2rem; font-size: 0.83rem; color: var(--muted);
+      border-top: 1px solid var(--border); line-height: 1.6;
+    }
+    .chart-caption strong { color: var(--text); }
+
+    /* CALLOUT */
+    .callout {
+      background: rgba(108,99,255,0.06); border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0; padding: 1rem 1.2rem;
+      margin: 1.2rem 0; font-size: 0.95rem; color: var(--text); line-height: 1.7;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 2rem; color: var(--muted);
+      font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem;
+    }
+
+    @media (max-width: 600px) {
+      .stats-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">GG</a>
+    <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="project-type">Time Series & Anomaly Detection</span>
+    <h1>Bitcoin Price Anomaly Detection:<br><span>SMA, EWMA & Prophet</span></h1>
+    <p class="hero-desc">
+      Applied three anomaly detection methods to 10 years of Bitcoin daily price data (2014–2024):
+      Simple Moving Average, Exponential Weighted Moving Average, and Meta's Prophet with Bayesian forecasting.
+      Compared detection rates, residual distributions, and the ability to model known market events as custom holidays.
+    </p>
+    <div class="tags">
+      <span class="tag">Python</span>
+      <span class="tag">Pandas</span>
+      <span class="tag">Matplotlib</span>
+      <span class="tag">Prophet</span>
+      <span class="tag">SMA</span>
+      <span class="tag">EWMA</span>
+      <span class="tag">STL Decomposition</span>
+      <span class="tag">yfinance</span>
+      <span class="tag">Anomaly Detection</span>
+    </div>
+    <div class="hero-links">
+      <a href="../index.html#projects" class="btn btn-outline">← Back</a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- OVERVIEW -->
+  <div class="section">
+    <p class="section-label">Overview</p>
+    <h2>10 Years of Bitcoin, Three Methods</h2>
+    <p>
+      The dataset spans September 2014 through November 2024, totaling 3,728 daily observations sourced via <code>yfinance</code>, covering Bitcoin's full lifecycle from early adoption through multiple bull-and-bust cycles. Each method was evaluated on its sensitivity, false-positive rate, and ability to surface structurally meaningful anomalies rather than routine volatility.
+    </p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">3,728</div>
+        <div class="stat-label">Daily observations<br>Sep 2014 – Nov 2024</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Detection methods<br>compared</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">36</div>
+        <div class="stat-label">High-confidence anomalies<br>flagged by all 3 methods</div>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Method</th><th>Anomalies Detected</th><th>Rate</th><th>Basis</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>SMA (30-day)</td><td>892</td><td>24.31%</td><td>2σ rule on residuals</td></tr>
+        <tr><td>EWMA (α ≈ 0.065)</td><td>660</td><td>17.98%</td><td>2σ rule on time-weighted residuals</td></tr>
+        <tr><td>Prophet</td><td>132</td><td>3.60%</td><td>Bayesian prediction intervals</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- SMA -->
+  <div class="section">
+    <p class="section-label">Method 1</p>
+    <h2>Simple Moving Average</h2>
+    <p>
+      A 30-day rolling mean serves as the baseline trend. Residuals (actual minus smoothed) are standardized, and any observation beyond ±2σ is flagged. Visual inspection is supplemented with histogram and Q-Q plot analysis to validate the threshold choice.
+    </p>
+
+    <div class="chart-wrap">
+      <img src="ts_sma.png" alt="Bitcoin price with 30-day SMA and flagged anomalies" />
+      <div class="chart-caption">
+        <strong>Bitcoin price (log scale) with 30-day SMA.</strong> Red dots mark anomalies. Clusters appear during the 2017-18 bubble, the 2020 COVID crash, and the 2021-22 bull run peak, all periods of genuine structural disruption rather than routine noise.
+      </div>
+    </div>
+
+    <div class="callout">
+      SMA is interpretable and stable, but its fixed window treats all history equally. During rapid directional moves, the lag between price and average inflates residuals, generating false positives at the edges of trend changes. The fat-tailed residual distribution confirms this: extreme deviations occur more often than a Gaussian baseline would predict, validating the 2σ threshold as deliberately inclusive.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- EWMA -->
+  <div class="section">
+    <p class="section-label">Method 2</p>
+    <h2>Exponential Weighted Moving Average</h2>
+    <p>
+      EWMA (span = 30, α ≈ 0.065) down-weights older observations exponentially, making it more responsive to recent price action. This reduces lag during trend reversals and produces tighter, more meaningful residuals.
+    </p>
+
+    <div class="chart-wrap">
+      <img src="ts_ewma.png" alt="Bitcoin price with EWMA and flagged anomalies" />
+      <div class="chart-caption">
+        <strong>Bitcoin price with EWMA (green) and anomaly flags.</strong> Compared to SMA, the EWMA line tracks price more closely during rapid moves, leaving fewer residuals that are large purely due to lag. The result: 232 fewer anomalies flagged versus SMA, with 610 anomalies in common between the two methods.
+      </div>
+    </div>
+
+    <div class="callout">
+      EWMA residuals cluster more tightly around zero, and their histogram fits the normal curve more closely than SMA residuals, a sign that the smoother is doing a better job of tracking the underlying trend. The 50 EWMA-only anomalies represent events the adaptive weighting surfaced but SMA missed; the 282 SMA-only anomalies are largely lag artifacts.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- PROPHET -->
+  <div class="section">
+    <p class="section-label">Method 3</p>
+    <h2>Prophet: Bayesian Anomaly Detection</h2>
+    <p>
+      Prophet decomposes the time series into trend, weekly seasonality, and a residual component. Anomalies are defined as observations falling outside the 99% posterior prediction interval, a far stricter criterion than statistical thresholding. This produces only 132 flags, all corresponding to major market disruptions.
+    </p>
+
+    <div class="chart-wrap">
+      <img src="ts_prophet.png" alt="Prophet forecast with anomaly flags" />
+      <div class="chart-caption">
+        <strong>Prophet forecast with 99% confidence band.</strong> Red dots mark the 132 anomalies (3.6% rate). Clusters coincide with the 2020 COVID crash, the 2021-22 extreme bull run, and late-2024 volatility, all events where price genuinely violated the expected trend-seasonal structure.
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- STL + FORECAST -->
+  <div class="section">
+    <p class="section-label">Decomposition & Forecast</p>
+    <h2>STL Decomposition & Custom Holiday Modeling</h2>
+    <p>
+      STL decomposition separates the series into trend, seasonal, and residual components. For Bitcoin, the trend explains 96.7% of variance; the seasonal component is negligible (0.0%), confirming that Bitcoin lacks meaningful day-of-week or calendar effects. The residual (2.0%) captures idiosyncratic shocks.
+    </p>
+
+    <div class="chart-wrap">
+      <img src="ts_stl.png" alt="STL decomposition of Bitcoin price" />
+      <div class="chart-caption">
+        <strong>STL decomposition.</strong> Top to bottom: observed price, trend component, seasonal component, and residual. The near-flat seasonal panel confirms the absence of calendar-driven cycles in Bitcoin prices.
+      </div>
+    </div>
+
+    <p>
+      A custom holiday was added to Prophet to model a synthetic anomaly in the future, demonstrating how known upcoming events (regulatory decisions, halving dates) can be encoded as structured disruptions in the forecast.
+    </p>
+
+    <div class="chart-wrap">
+      <img src="ts_forecast.png" alt="Prophet multi-year forecast with custom holiday anomaly" />
+      <div class="chart-caption">
+        <strong>Prophet 12-month forecast with custom holiday event.</strong> The anomaly applied on 2024-11-04 produced an estimated −$7,631 (−10.1%) impact on the forecast. The widening confidence band reflects genuine uncertainty over longer horizons.
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- COMPARISON -->
+  <div class="section">
+    <p class="section-label">Results</p>
+    <h2>Method Comparison</h2>
+    <p>
+      The three methods operate on a sensitivity-precision tradeoff. SMA is the most inclusive detector; Prophet is the most conservative. For trading signals requiring high confidence, Prophet's 36 anomalies agreed upon by all three methods represent the most actionable set.
+    </p>
+
+    <div class="chart-wrap">
+      <img src="ts_comparison.png" alt="Side-by-side comparison of all three anomaly detection methods" />
+      <div class="chart-caption">
+        <strong>All three methods plotted together.</strong> Agreement zones (all three methods flagging the same date) correspond to the most significant market events: the 2017–18 crypto bubble peak and collapse, the March 2020 COVID crash, and the 2021–22 all-time-high period.
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Key takeaway:</strong> No single method is universally best. SMA provides broad coverage for exploratory analysis; EWMA reduces lag-induced false positives; Prophet surfaces only structurally unexpected events and provides calibrated uncertainty. Combining all three (using only the intersection) yields 36 high-confidence anomalies that correspond to documented market disruptions.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Garima Gupta &nbsp;·&nbsp; <a href="../index.html" style="color:var(--accent); text-decoration:none;">Back to Portfolio</a></p>
+  </footer>
+
+</body>
+</html>

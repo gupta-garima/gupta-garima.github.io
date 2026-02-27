@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Purchase Card Fraud Features | Garima Gupta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f9fb;
+      --surface: #ffffff;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card-shadow: 0 4px 24px rgba(108,99,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 6vw;
+      background: rgba(249,249,251,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; color: var(--accent); text-decoration: none; }
+    .back-link {
+      font-size: 0.9rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    .hero { padding: 8rem 6vw 4rem; max-width: 900px; margin: 0 auto; }
+    .project-type {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+      display: inline-block;
+      background: rgba(108,99,255,0.1); padding: 0.35rem 0.9rem; border-radius: 999px;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700;
+      letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-desc { font-size: 1.1rem; color: var(--muted); max-width: 680px; line-height: 1.8; }
+    .hero-links { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.75rem 1.6rem; border-radius: 999px; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer; text-decoration: none;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+    .btn-outline:hover { background: rgba(108,99,255,0.06); transform: translateY(-2px); }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .tag {
+      background: rgba(108,99,255,0.08); color: var(--accent);
+      padding: 0.3rem 0.9rem; border-radius: 999px; font-size: 0.82rem;
+      font-weight: 500; border: 1px solid rgba(108,99,255,0.15);
+    }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    .section { padding: 4rem 6vw; max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .section h2 {
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem); font-weight: 700;
+      letter-spacing: -0.8px; margin-bottom: 1.5rem;
+    }
+    .section p { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 1rem; }
+
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem; margin: 2rem 0;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.4rem 1.2rem;
+      box-shadow: var(--card-shadow); text-align: center;
+    }
+    .stat-value { font-size: 2rem; font-weight: 700; color: var(--accent); letter-spacing: -1px; }
+    .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; font-weight: 500; }
+
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    th {
+      text-align: left; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase; color: var(--accent);
+      padding: 0.7rem 1rem; border-bottom: 2px solid var(--border);
+    }
+    td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.92rem; color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { font-weight: 600; color: var(--accent); }
+
+    .chart-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: var(--card-shadow); margin: 1.5rem 0;
+    }
+    .chart-wrap img { width: 100%; display: block; }
+    .chart-caption {
+      padding: 0.8rem 1.2rem; font-size: 0.83rem; color: var(--muted);
+      border-top: 1px solid var(--border); line-height: 1.6;
+    }
+    .chart-caption strong { color: var(--text); }
+
+    .chart-pair {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.2rem; margin: 1.5rem 0;
+    }
+    .chart-pair .chart-wrap { margin: 0; }
+
+    .callout {
+      background: rgba(108,99,255,0.06); border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0; padding: 1rem 1.2rem;
+      margin: 1.2rem 0; font-size: 0.95rem; color: var(--text); line-height: 1.7;
+    }
+
+    footer {
+      text-align: center; padding: 2rem; color: var(--muted);
+      font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem;
+    }
+
+    @media (max-width: 620px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .chart-pair { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">GG</a>
+    <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+  </nav>
+
+  <div class="hero">
+    <span class="project-type">Feature Engineering &amp; Business Analytics</span>
+    <h1>Purchase Card Fraud Detection:<br><span>6 Behavioral Features for Unsupervised ML</span></h1>
+    <p class="hero-desc">
+      Analyzed a public-sector purchase card (pcard) dataset (FY 2014) to engineer six cardholder-level behavioral features for unsupervised anomaly detection. The analysis spans spending patterns, merchant category usage, vendor concentration, and transaction timing, turning raw card data into actionable compliance signals.
+    </p>
+    <div class="tags">
+      <span class="tag">Python</span>
+      <span class="tag">Pandas</span>
+      <span class="tag">NumPy</span>
+      <span class="tag">Matplotlib</span>
+      <span class="tag">Feature Engineering</span>
+      <span class="tag">Shannon Entropy</span>
+      <span class="tag">Unsupervised ML</span>
+      <span class="tag">Compliance Analytics</span>
+    </div>
+    <div class="hero-links">
+      <a href="../index.html#projects" class="btn btn-outline">← Back</a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- OVERVIEW -->
+  <div class="section">
+    <p class="section-label">Overview</p>
+    <h2>From Raw Card Transactions to Fraud Signals</h2>
+    <p>
+      Purchase card datasets carry no fraud labels, making this a purely unsupervised problem. The goal is not to detect a known pattern, but to engineer features that move anomalous cardholders away from the dense cluster of normal behavior, giving algorithms like Isolation Forest, LOF, or autoencoders the structure they need to surface suspicious accounts.
+    </p>
+    <p>
+      The starting point is exploratory: understanding how money actually flows before building any feature. Where is spending concentrated? When does it happen? Are refunds proportionate? Those answers shape which signals are worth engineering.
+    </p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">5,466</div>
+        <div class="stat-label">Cardholders in<br>feature table</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">6</div>
+        <div class="stat-label">Behavioral features<br>engineered</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">FY 2014</div>
+        <div class="stat-label">Public-sector<br>pcard dataset</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- EDA: PURCHASES VS REFUNDS -->
+  <div class="section">
+    <p class="section-label">Exploratory Analysis</p>
+    <h2>Spending Behavior: Purchases vs Refunds</h2>
+    <p>
+      Before engineering any features, the distribution of transaction amounts is examined separately for purchases and refunds. Extreme outliers (top 1%) are trimmed so the core range is visible. Refunds are plotted separately because they appear as negative amounts and follow a different behavioral pattern than purchases.
+    </p>
+
+    <div class="chart-wrap">
+      <img src="cc_purchases_refunds.png" alt="Histogram of purchase and refund amounts" />
+      <div class="chart-caption">
+        <strong>Purchases vs Refunds (trimmed outliers).</strong> The purchase distribution is right-skewed, with most transactions small and a long tail of larger purchases. Refunds are far fewer in volume. A cardholder with an unusually high refund frequency or a refund-to-purchase ratio that deviates from peers is a compliance red flag.
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Business insight:</strong> Refunds on a purchase card can indicate legitimate returns, but they can also mask fictitious purchase cycles where an employee buys, returns, and redirects the credit. Tracking refund volume per cardholder is a standard control in corporate card audits.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- EDA: WEEKDAY VS WEEKEND + TOP MCC -->
+  <div class="section">
+    <p class="section-label">Spending Patterns</p>
+    <h2>When and Where Is Money Being Spent?</h2>
+    <p>
+      Two of the most revealing business analytics questions for a purchase card program are: <em>Are employees spending on work days?</em> and <em>What kinds of vendors are being used?</em> Both are visible before any modeling.
+    </p>
+
+    <div class="chart-pair">
+      <div class="chart-wrap">
+        <img src="cc_weekday_weekend.png" alt="Weekday vs weekend transaction counts" />
+        <div class="chart-caption">
+          <strong>Weekday vs Weekend volume.</strong> The large majority of transactions occur on weekdays, consistent with legitimate business use. The weekend volume, while smaller, is significant enough to warrant per-cardholder analysis rather than dismissal.
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <img src="cc_top_mcc.png" alt="Top 10 merchant category codes by transaction count" />
+        <div class="chart-caption">
+          <strong>Top 10 Merchant Categories (MCC).</strong> Spending clusters in predictable categories for a government agency. Any cardholder whose MCC profile diverges sharply from the population norm warrants review.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Business insight:</strong> Weekend transaction volume is a first-pass compliance filter in most corporate card programs. MCC-level visibility answers the harder question: even transactions on weekdays could be for non-business purposes if they go to entertainment, personal services, or luxury retail MCCs not typical for the agency's function.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- TOP VENDORS -->
+  <div class="section">
+    <p class="section-label">Vendor Concentration</p>
+    <h2>Who Is Getting Paid?</h2>
+    <p>
+      Vendor-level data is one of the most useful signals in purchase card analytics. Legitimate usage typically distributes spend across multiple recurring vendors (airlines, office suppliers, hotels). When a single vendor dominates a cardholder's activity, it raises questions about whether that concentration reflects genuine business need or a preferential or fraudulent arrangement.
+    </p>
+
+    <div class="chart-wrap">
+      <img src="cc_top_vendors.png" alt="Top 10 vendors by transaction count" />
+      <div class="chart-caption">
+        <strong>Top 10 vendors by transaction count across all cardholders.</strong> A handful of vendors account for a disproportionate share of total transactions. At the population level this is expected (e.g., travel vendors dominate business card spend). The anomaly signal lives at the individual level: a cardholder whose top vendor share far exceeds their peers' norm.
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Business insight:</strong> Vendor concentration analysis (the "top vendor dominance ratio" feature) is a standard input to procurement fraud detection. It catches preferential awarding of business to a single supplier, split-purchase schemes designed to stay under approval thresholds, and automated or scripted card testing against a single merchant.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- FEATURE ENGINEERING -->
+  <div class="section">
+    <p class="section-label">Feature Engineering</p>
+    <h2>Six Behavioral Features for Unsupervised Detection</h2>
+    <p>
+      Each feature is designed around a different axis of behavior, so that a legitimate cardholder is unlikely to score anomalously on multiple dimensions at once, while a bad actor is more likely to stand out on several simultaneously.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>#</th><th>Feature</th><th>What It Captures</th><th>Anomaly Signal</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>F1</td><td>Amount Z-Score (P95)</td><td>Spending magnitude vs personal baseline</td><td>Out-of-character large purchases</td></tr>
+        <tr><td>F2</td><td>Time Irregularity</td><td>Cadence of inter-transaction gaps</td><td>Robotic or burst-fire patterns</td></tr>
+        <tr><td>F3</td><td>MCC Entropy</td><td>Diversity of merchant category usage</td><td>Unusual concentration in one MCC</td></tr>
+        <tr><td>F4</td><td>Weekend Ratio</td><td>Share of transactions on weekends</td><td>Off-hours spending above peer norm</td></tr>
+        <tr><td>F5</td><td>Top Vendor Dominance</td><td>Fraction going to single top vendor</td><td>Funneling or preferential vendor use</td></tr>
+        <tr><td>F6</td><td>Settlement Lag Z-Score</td><td>Deviation in posting delay vs personal norm</td><td>Atypical processing timing</td></tr>
+      </tbody>
+    </table>
+
+    <div class="chart-wrap">
+      <img src="cc_scatter.png" alt="Scatter plot of weekend ratio vs time irregularity per cardholder" />
+      <div class="chart-caption">
+        <strong>Weekend ratio vs time irregularity (per cardholder).</strong> Most cardholders cluster near the origin: low weekend activity and normal transaction spacing. Outliers in the upper-right corner show both elevated off-hours spending and irregular cadence simultaneously, a joint signal that would rank highly in any density-based or isolation-based unsupervised detector.
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Key design principle:</strong> Each feature targets a structurally distinct behavioral axis. When combined in a model like Isolation Forest, features that are individually weak become jointly powerful. A legitimate cardholder might score high on one dimension by chance; scoring anomalously on three or more dimensions simultaneously is far more suspicious.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <footer>
+    <p>© 2026 Garima Gupta &nbsp;·&nbsp; <a href="../index.html" style="color:var(--accent); text-decoration:none;">Back to Portfolio</a></p>
+  </footer>
+
+</body>
+</html>

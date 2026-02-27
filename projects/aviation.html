@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aviation Media Sentiment | Garima Gupta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f9fb;
+      --surface: #ffffff;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card-shadow: 0 4px 24px rgba(108,99,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 6vw;
+      background: rgba(249,249,251,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; color: var(--accent); text-decoration: none; }
+    .back-link {
+      font-size: 0.9rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    .hero { padding: 8rem 6vw 4rem; max-width: 900px; margin: 0 auto; }
+    .project-type {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+      display: inline-block;
+      background: rgba(108,99,255,0.1); padding: 0.35rem 0.9rem; border-radius: 999px;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700;
+      letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-desc { font-size: 1.1rem; color: var(--muted); max-width: 680px; line-height: 1.8; }
+    .hero-links { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.75rem 1.6rem; border-radius: 999px; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer; text-decoration: none;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-primary { background: var(--accent); color: #fff; border: 2px solid var(--accent); }
+    .btn-primary:hover { background: #5a52d5; border-color: #5a52d5; transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+    .btn-outline:hover { background: rgba(108,99,255,0.06); transform: translateY(-2px); }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .tag {
+      background: rgba(108,99,255,0.08); color: var(--accent);
+      padding: 0.3rem 0.9rem; border-radius: 999px; font-size: 0.82rem;
+      font-weight: 500; border: 1px solid rgba(108,99,255,0.15);
+    }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    .section { padding: 4rem 6vw; max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .section h2 {
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem); font-weight: 700;
+      letter-spacing: -0.8px; margin-bottom: 1.5rem;
+    }
+    .section p { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 1rem; }
+    .section p:last-child { margin-bottom: 0; }
+
+    .stat-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1rem; margin: 2rem 0;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1rem; text-align: center;
+      box-shadow: var(--card-shadow);
+    }
+    .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+    .stat-label { font-size: 0.75rem; font-weight: 600; color: var(--muted); margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .callout {
+      background: rgba(108,99,255,0.06); border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0; padding: 1rem 1.2rem;
+      margin: 1.2rem 0; font-size: 0.92rem; color: var(--text); line-height: 1.7;
+    }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; margin: 1.5rem 0; }
+    .info-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1.4rem; box-shadow: var(--card-shadow);
+    }
+    .info-card h4 { font-size: 0.85rem; font-weight: 700; color: var(--accent); margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .info-card ul { list-style: none; padding: 0; }
+    .info-card ul li {
+      font-size: 0.88rem; color: var(--muted); padding: 0.3rem 0;
+      border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; gap: 0.5rem;
+    }
+    .info-card ul li:last-child { border-bottom: none; }
+    .info-card ul li span { font-weight: 600; color: var(--text); text-align: right; }
+
+    .rq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+    .rq-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1.4rem; box-shadow: var(--card-shadow);
+    }
+    .rq-num { font-size: 1.3rem; font-weight: 700; color: var(--accent); margin-bottom: 0.4rem; }
+    .rq-card p { font-size: 0.9rem; color: var(--muted); margin: 0; }
+
+    .finding {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem 1.6rem; box-shadow: var(--card-shadow); margin-bottom: 1rem;
+    }
+    .finding h4 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.8rem; }
+    .finding p { font-size: 0.92rem; color: var(--muted); margin-bottom: 0.7rem; }
+    .finding p:last-child { margin-bottom: 0; }
+    .metric-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.8rem; }
+    .metric {
+      display: inline-block; background: rgba(108,99,255,0.1); color: var(--accent);
+      font-weight: 700; font-size: 0.83rem; padding: 0.2rem 0.7rem; border-radius: 999px;
+    }
+
+    footer {
+      text-align: center; padding: 2rem; color: var(--muted);
+      font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem;
+    }
+
+    @media (max-width: 700px) {
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .two-col, .three-col, .rq-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">GG</a>
+    <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="project-type">NLP &amp; Computational Social Science</span>
+    <h1>How Media Sentiment<br><span>Fuels Public Fear of Aviation Disasters</span></h1>
+    <p class="hero-desc">
+      Analyzed whether media framing, not crash frequency, drives public fear of flying. Used NLP sentiment analysis across three lexicons (Bing, AFINN, NRC) on aviation headlines from NewsAPI and the NYT API, cross-referenced against Aviation Safety Network crash records and Google Trends search data from February 2020 to February 2025.
+    </p>
+    <div class="tags">
+      <span class="tag">R</span>
+      <span class="tag">NLP</span>
+      <span class="tag">Sentiment Analysis</span>
+      <span class="tag">Random Forest</span>
+      <span class="tag">Linear Regression</span>
+      <span class="tag">Time Series</span>
+      <span class="tag">Google Trends</span>
+      <span class="tag">NewsAPI</span>
+      <span class="tag">NYT API</span>
+    </div>
+    <div class="hero-links">
+      <a href="../aviation-media-sentiment.pdf" target="_blank" class="btn btn-primary">→ View Presentation</a>
+      <a href="../aviation-media-sentiment-report.pdf" target="_blank" class="btn btn-outline">→ View Report</a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- PROBLEM -->
+  <div class="section">
+    <p class="section-label">Context</p>
+    <h2>The Fear-Reality Gap</h2>
+    <p>
+      Despite commercial aviation becoming increasingly safer, public fear of flying has grown in the post-pandemic era. This disconnect is likely explained by the availability heuristic: people estimate risk based on how easily examples come to mind. When a crash dominates headlines for days, flying feels dangerous, regardless of the statistics.
+    </p>
+    <p>
+      This project asks whether media exaggeration, through topic amplification and emotional framing, is the real driver of flight fear, rather than the underlying crash data.
+    </p>
+
+    <div class="rq-grid" style="margin-top: 2rem;">
+      <div class="rq-card">
+        <div class="rq-num">RQ1</div>
+        <p>Is there a correlation between aviation crash counts and fear-related Google search volume, independent of media coverage?</p>
+      </div>
+      <div class="rq-card">
+        <div class="rq-num">RQ2</div>
+        <p>Do more crash headlines lead to more fear-related Google searches?</p>
+      </div>
+      <div class="rq-card">
+        <div class="rq-num">RQ3</div>
+        <p>Is media coverage disproportionately high relative to actual crash occurrences?</p>
+      </div>
+      <div class="rq-card">
+        <div class="rq-num">RQ4</div>
+        <p>Does negative headline sentiment predict an increase in public fear of planes?</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- DATA -->
+  <div class="section">
+    <p class="section-label">Data</p>
+    <h2>Multi-Source Pipeline</h2>
+    <div class="two-col">
+      <div class="info-card">
+        <h4>News Sources</h4>
+        <ul>
+          <li>NewsAPI <span>Headlines, dates, sentiment score</span></li>
+          <li>NYT API <span>Headlines and dates from 2020</span></li>
+          <li>Keywords <span>"plane crash", "flight failure"</span></li>
+          <li>Granularity <span>Weekly aggregation</span></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Crash and Behavior Data</h4>
+        <ul>
+          <li>ASN <span>Global crash records, manually compiled</span></li>
+          <li>Google Trends <span>"fear of flying", "plane crash today"</span></li>
+          <li>Timeframe <span>Feb 2020 to Feb 2025</span></li>
+          <li>Observations <span>53 weeks analyzed</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="section-label" style="margin-top: 2rem;">Sentiment Lexicons</p>
+    <div class="three-col">
+      <div class="info-card">
+        <h4>Bing</h4>
+        <ul>
+          <li>Type <span>Binary</span></li>
+          <li>Output <span>Positive / Negative</span></li>
+          <li>Use <span>Net polarity score per week</span></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>AFINN</h4>
+        <ul>
+          <li>Type <span>Numeric</span></li>
+          <li>Output <span>Score: -5 to +5</span></li>
+          <li>Use <span>Continuous sentiment trend</span></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>NRC</h4>
+        <ul>
+          <li>Type <span>Emotion categories</span></li>
+          <li>Output <span>8 emotions + pos/neg</span></li>
+          <li>Use <span>Nuanced tone over time</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- RESULTS -->
+  <div class="section">
+    <p class="section-label">Results</p>
+    <h2>Findings by Research Question</h2>
+
+    <div class="finding">
+      <h4>RQ1 &mdash; Crashes vs. Fear Searches (No Media)</h4>
+      <div class="metric-row">
+        <span class="metric">r = 0.096</span>
+        <span class="metric">p = 0.129</span>
+        <span class="metric">R&sup2; = 0.0001</span>
+      </div>
+      <p>
+        No significant linear relationship between weekly crash counts and "fear of flying" search volume. Crash frequency explains less than 1% of variance in search behavior. Linear regression line is essentially flat.
+      </p>
+      <p>
+        A Random Forest model revealed a nonlinear threshold: search volume only spikes around 6-8 crashes per week, suggesting fear does not build gradually but activates suddenly at a tipping point. All three models agree that fear spikes in exceptional weeks, not with any consistent pattern tied to raw crash counts.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h4>RQ2 &mdash; Headlines vs. Fear Searches</h4>
+      <div class="metric-row">
+        <span class="metric">% Var explained: -11.08</span>
+        <span class="metric">Ntree = 500</span>
+        <span class="metric">MSE = 0.407</span>
+      </div>
+      <p>
+        Random Forest trained on Bing sentiment features (avg_bing, total_bing, n_words, neg_sentiment_ratio, article_count) failed to reliably predict fear-based search spikes. Actual vs. predicted plots show wide dispersion, with the model systematically under-predicting spikes. Article volume alone does not drive public fear. Emotional intensity matters more than count.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h4>RQ3 &mdash; Media Volume vs. Actual Crashes</h4>
+      <div class="metric-row">
+        <span class="metric">17% of weeks exceeded 5:1 article-to-crash ratio</span>
+        <span class="metric">65% below 2.5:1 median</span>
+        <span class="metric">10% above 7:1</span>
+      </div>
+      <p>
+        Out of 53 observed weeks, 9 (17%) exceeded a 5:1 article-to-crash ratio, indicating disproportionate coverage. The distribution is right-skewed: most weeks have a reasonable incident-to-coverage ratio, but coverage surges unpredictably during isolated events, driven by factors beyond crash counts.
+      </p>
+      <p>
+        NLP analysis confirmed the bias in tone: average weekly AFINN score was -0.82 (range: -3.2 to +1.5). The Bing lexicon showed 63% of weeks had net negative sentiment, with the worst week recording 3x more negative than positive words. NRC revealed "fear" (12.3 mentions/week) and "negative" (15.6/week) dominating headlines, more than double the "trust" mentions (4.9/week). Crucially, high crash counts did not always correlate with peak negativity, implying editorial choices drive tone as much as facts.
+      </p>
+      <p>
+        A binary classification model flagged weeks with an article-to-crash ratio above 2.5:1 (32% of weeks, 17 out of 53). Key predictors: "fear" word count (r = 0.41) and Bing net sentiment (r = -0.38). Weeks with 15+ "fear" mentions were 3x more likely to be flagged. Model F1-score = 0.62, suggesting additional context (event severity, geopolitical factors) would improve classification.
+      </p>
+    </div>
+
+    <div class="finding">
+      <h4>RQ4 &mdash; Negative Sentiment as a Predictor of Fear</h4>
+      <div class="metric-row">
+        <span class="metric">33% spike at [0.7, 0.8] bin</span>
+        <span class="metric">0-3% in all other bins</span>
+        <span class="metric">AFINN: p = 0.939, R&sup2; = -0.02</span>
+      </div>
+      <p>
+        Binning the negative sentiment ratio (0.0 to 1.0) into 10 equal intervals revealed a threshold effect: only the 0.7-0.8 bin produced a 33% rate of fear-related search spikes. All other bins showed 0-3%. Public anxiety does not scale linearly with negativity; it ignites above a critical point of emotional intensity.
+      </p>
+      <p>
+        AFINN linear regression confirmed no smooth linear relationship (p = 0.939), even in weeks with extreme negativity (e.g., -3.2 AFINN score). Average weekly search interest remained stable (mean = 1.02, SD = 0.71), reinforcing that public attention is event-driven, not sentiment-driven in general.
+      </p>
+    </div>
+
+    <div class="callout">
+      <strong>Central finding:</strong> The numbers are not fueling the fear, the narrative is. Fear responds to extreme framing, not to crash counts or headline volume alone. Neither crashes nor coverage drive anxiety unless they cross critical intensity thresholds. Media alarmism mostly misses its mark unless exceptionally emotional.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- METHODS SUMMARY -->
+  <div class="section">
+    <p class="section-label">Methods</p>
+    <h2>Analytical Approach</h2>
+    <div class="two-col">
+      <div class="info-card">
+        <h4>Statistical Models</h4>
+        <ul>
+          <li>Pearson Correlation <span>Crashes vs. search volume</span></li>
+          <li>Linear Regression <span>AFINN / crash count as predictors</span></li>
+          <li>Random Forest <span>Sentiment features, threshold detection</span></li>
+          <li>Binary Classification <span>Media overreaction flagging</span></li>
+          <li>Binning Analysis <span>Non-parametric threshold detection</span></li>
+          <li>Time Series <span>Weekly ratio and emotion trends</span></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>NLP Pipeline (R)</h4>
+        <ul>
+          <li>APIs <span>NewsAPI, NYT API, Google Trends</span></li>
+          <li>Tokenization <span>Headline word tokens</span></li>
+          <li>Lexicon join <span>Bing, AFINN, NRC matching</span></li>
+          <li>Features <span>avg_bing, total_bing, neg_ratio, n_words, article_count</span></li>
+          <li>Output <span>Weekly sentiment aggregates</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- LIMITATIONS -->
+  <div class="section">
+    <p class="section-label">Limitations &amp; Recommendations</p>
+    <h2>Takeaways</h2>
+    <div class="two-col">
+      <div class="info-card">
+        <h4>Limitations</h4>
+        <ul>
+          <li>Free API caps <span>Limited historical data coverage</span></li>
+          <li>ASN scraping failed <span>Crash data entered manually</span></li>
+          <li>Lexicon simplicity <span>Word-level analysis misses context</span></li>
+          <li>Time-lag assumptions <span>Public reaction window is fixed</span></li>
+          <li>Search as proxy <span>Google Trends is not direct fear measurement</span></li>
+          <li>Correlation != causation <span>Confounders not fully controlled</span></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h4>Recommendations</h4>
+        <ul>
+          <li>Regulators <span>Use sentiment monitoring for crisis communication</span></li>
+          <li>Airlines <span>Proactively address fear spikes in real time</span></li>
+          <li>Governments <span>Education campaigns to counter sensationalism</span></li>
+          <li>Media <span>More balanced framing of aviation incidents</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <footer>
+    <p>© 2026 Garima Gupta &nbsp;·&nbsp; <a href="../index.html" style="color:var(--accent); text-decoration:none;">Back to Portfolio</a></p>
+  </footer>
+
+</body>
+</html>

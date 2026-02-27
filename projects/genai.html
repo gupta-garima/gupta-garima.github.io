@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generative AI Model Suite | Garima Gupta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f9fb;
+      --surface: #ffffff;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card-shadow: 0 4px 24px rgba(108,99,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 6vw;
+      background: rgba(249,249,251,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; color: var(--accent); text-decoration: none; }
+    .back-link {
+      font-size: 0.9rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      padding: 8rem 6vw 4rem;
+      max-width: 900px; margin: 0 auto;
+    }
+    .project-type {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+      display: inline-block;
+      background: rgba(108,99,255,0.1); padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700;
+      letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-desc { font-size: 1.1rem; color: var(--muted); max-width: 680px; line-height: 1.8; }
+    .hero-links { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.75rem 1.6rem; border-radius: 999px; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer; text-decoration: none;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-primary { background: var(--accent); color: #fff; border: 2px solid var(--accent); }
+    .btn-primary:hover { background: #5a52d5; border-color: #5a52d5; transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+    .btn-outline:hover { background: rgba(108,99,255,0.06); transform: translateY(-2px); }
+
+    /* TAGS */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .tag {
+      background: rgba(108,99,255,0.08); color: var(--accent);
+      padding: 0.3rem 0.9rem; border-radius: 999px; font-size: 0.82rem;
+      font-weight: 500; border: 1px solid rgba(108,99,255,0.15);
+    }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* SECTIONS */
+    .section { padding: 4rem 6vw; max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .section h2 {
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem); font-weight: 700;
+      letter-spacing: -0.8px; margin-bottom: 1.5rem;
+    }
+    .section p { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 1rem; }
+
+    /* MODEL TABLE */
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+    th {
+      text-align: left; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase; color: var(--accent);
+      padding: 0.7rem 1rem; border-bottom: 2px solid var(--border);
+    }
+    td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.92rem; color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { font-weight: 600; color: var(--accent); width: 120px; }
+
+    /* GAN IMAGES */
+    .image-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin: 2rem 0;
+    }
+    .image-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+    .image-box img { width: 100%; display: block; image-rendering: pixelated; }
+    .image-box .caption {
+      padding: 0.7rem 1rem; font-size: 0.82rem; font-weight: 600;
+      color: var(--muted); text-align: center; border-top: 1px solid var(--border);
+    }
+
+    /* CODE BLOCKS */
+    .code-block {
+      background: #1a1a2e; border-radius: 12px; padding: 1.5rem;
+      margin: 1.2rem 0; overflow-x: auto;
+    }
+    .code-block pre { color: #e2e8f0; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.83rem; line-height: 1.7; }
+    .code-label {
+      font-size: 0.75rem; font-weight: 600; color: var(--accent);
+      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.8rem;
+    }
+
+    /* CALLOUT */
+    .callout {
+      background: rgba(108,99,255,0.06); border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0; padding: 1rem 1.2rem;
+      margin: 1.2rem 0; font-size: 0.92rem; color: var(--text);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 2rem; color: var(--muted);
+      font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem;
+    }
+
+    @media (max-width: 600px) {
+      .image-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">GG</a>
+    <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="project-type">Applied Generative AI</span>
+    <h1>Generative AI Model Suite:<br><span>GAN, Diffusion, EBM & RL-Trained LLM</span></h1>
+    <p class="hero-desc">
+      A hands-on project building and deploying 5 generative AI models progressively as production-style REST APIs. From word embeddings and image classifiers to GANs, diffusion models, energy-based models, and RL post-training of GPT-2 to align its output format.
+    </p>
+    <div class="tags">
+      <span class="tag">PyTorch</span>
+      <span class="tag">FastAPI</span>
+      <span class="tag">Docker</span>
+      <span class="tag">GAN</span>
+      <span class="tag">DDPM</span>
+      <span class="tag">Energy-Based Models</span>
+      <span class="tag">GPT-2</span>
+      <span class="tag">RLHF</span>
+      <span class="tag">spaCy</span>
+    </div>
+    <div class="hero-links">
+      <a href="https://github.com/gupta-garima/apans5560" target="_blank" class="btn btn-primary">View on GitHub</a>
+      <a href="../index.html#projects" class="btn btn-outline">← Back</a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- MODEL PROGRESSION -->
+  <div class="section">
+    <p class="section-label">Overview</p>
+    <h2>Model Progression</h2>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Model</th><th>Task</th><th>Stack</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>spaCy Embeddings</td><td>Word & sentence vector API</td><td>spaCy, FastAPI</td></tr>
+        <tr><td>2</td><td>CNN (CIFAR-10)</td><td>Image classification API</td><td>PyTorch, FastAPI</td></tr>
+        <tr><td>3</td><td>GAN (MNIST)</td><td>Handwritten digit generation</td><td>PyTorch, FastAPI</td></tr>
+        <tr><td>4</td><td>Diffusion + EBM</td><td>Advanced image synthesis on CIFAR-10</td><td>PyTorch, FastAPI</td></tr>
+        <tr><td>5</td><td>RL post-trained GPT-2</td><td>Format-constrained text generation</td><td>Transformers, FastAPI, Docker</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- GAN SECTION -->
+  <div class="section">
+    <p class="section-label">Assignment 3</p>
+    <h2>GAN: Generating Handwritten Digits</h2>
+    <p>
+      Implemented a Generative Adversarial Network from scratch in PyTorch and trained it on the MNIST dataset. The generator learns to produce realistic 28x28 handwritten digit images from random noise vectors. The trained model is served via a FastAPI endpoint that returns a PNG image grid on demand.
+    </p>
+    <p>Training progression shows the generator improving from blurry noise to recognizable digits over 15 epochs:</p>
+
+    <div class="image-row">
+      <div class="image-box">
+        <img src="gan_epoch_01.png" alt="GAN output at epoch 1" />
+        <div class="caption">Epoch 1: early training</div>
+      </div>
+      <div class="image-box">
+        <img src="gan_epoch_08.png" alt="GAN output at epoch 8" />
+        <div class="caption">Epoch 8: improving</div>
+      </div>
+      <div class="image-box">
+        <img src="gan_final.png" alt="GAN final output" />
+        <div class="caption">Final: clean digits</div>
+      </div>
+    </div>
+
+    <div class="code-label">API Example</div>
+    <div class="code-block">
+      <pre>curl "http://localhost:8001/generate?n=16" --output digits.png</pre>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- DIFFUSION + EBM -->
+  <div class="section">
+    <p class="section-label">Assignment 4</p>
+    <h2>Diffusion & Energy-Based Models</h2>
+    <p>
+      Implemented two advanced generative models on CIFAR-10. The DDPM diffusion model learns to reverse a noise process over 1000 timesteps to synthesize 32x32 images. The energy-based model assigns scalar energy scores to images (lower energy indicates more realistic samples) and uses gradient descent on the input (not the weights) to generate low-energy images.
+    </p>
+
+    <div class="code-label">Diffusion: Generate Images</div>
+    <div class="code-block">
+      <pre>curl -X POST http://localhost:8002/diffusion/generate \
+  -H "Content-Type: application/json" \
+  -d '{"num_samples": 8}'
+
+# Response
+{"num": 8, "mean": -0.012, "std": 0.943}</pre>
+    </div>
+
+    <div class="code-label">EBM: Score Images</div>
+    <div class="code-block">
+      <pre>curl -X POST http://localhost:8002/energy/score \
+  -H "Content-Type: application/json" \
+  -d '{"batch": 4}'
+
+# Response (lower energy = more realistic)
+{"scores": [2.31, 4.87, 1.95, 3.42]}</pre>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- GPT-2 RL -->
+  <div class="section">
+    <p class="section-label">Assignment 5</p>
+    <h2>RL Post-Training of GPT-2</h2>
+    <p>
+      Fine-tuned GPT-2 using reinforcement learning to follow a strict output format: every response must start with "That is a great question" and end with "Let me know if you have any other questions." A reward function scores each response 0-100 based on format compliance (50 points per constraint). This mirrors RLHF techniques used to align large language models like ChatGPT.
+    </p>
+
+    <div class="code-label">Live Output from Trained Model</div>
+    <div class="code-block">
+      <pre>curl -X POST http://localhost:8003/answer \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What is a diffusion model?"}'
+
+{
+  "question": "What is a diffusion model?",
+  "answer": "That is a great question. A diffusion model is the simulation of the human brain by machines. Let me know if you have any other questions.",
+  "has_start": true,
+  "has_end": true,
+  "score": 100
+}</pre>
+    </div>
+
+    <div class="callout">
+      The model consistently scores 100/100 for format compliance across all prompts. The RL reward signal successfully shaped output structure without supervised labels.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Garima Gupta &nbsp;·&nbsp; <a href="../index.html" style="color:var(--accent); text-decoration:none;">Back to Portfolio</a></p>
+  </footer>
+
+</body>
+</html>

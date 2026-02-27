@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FoodVision | Garima Gupta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f9fb;
+      --surface: #ffffff;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card-shadow: 0 4px 24px rgba(108,99,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 6vw;
+      background: rgba(249,249,251,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; color: var(--accent); text-decoration: none; }
+    .back-link {
+      font-size: 0.9rem; font-weight: 500; color: var(--muted);
+      text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      padding: 8rem 6vw 4rem;
+      max-width: 900px; margin: 0 auto;
+    }
+    .project-type {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+      display: inline-block;
+      background: rgba(108,99,255,0.1); padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700;
+      letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-desc { font-size: 1.1rem; color: var(--muted); max-width: 680px; line-height: 1.8; }
+    .hero-links { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.75rem 1.6rem; border-radius: 999px; font-size: 0.9rem;
+      font-weight: 600; cursor: pointer; text-decoration: none;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-primary { background: var(--accent); color: #fff; border: 2px solid var(--accent); }
+    .btn-primary:hover { background: #5a52d5; border-color: #5a52d5; transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+    .btn-outline:hover { background: rgba(108,99,255,0.06); transform: translateY(-2px); }
+
+    /* TAGS */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .tag {
+      background: rgba(108,99,255,0.08); color: var(--accent);
+      padding: 0.3rem 0.9rem; border-radius: 999px; font-size: 0.82rem;
+      font-weight: 500; border: 1px solid rgba(108,99,255,0.15);
+    }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* SECTIONS */
+    .section { padding: 4rem 6vw; max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .section h2 {
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem); font-weight: 700;
+      letter-spacing: -0.8px; margin-bottom: 1.5rem;
+    }
+    .section p { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 1rem; }
+
+    /* PIPELINE TABLE */
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+    th {
+      text-align: left; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase; color: var(--accent);
+      padding: 0.7rem 1rem; border-bottom: 2px solid var(--border);
+    }
+    td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.92rem; color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { font-weight: 600; color: var(--accent); width: 120px; }
+
+    /* CODE BLOCKS */
+    .code-block {
+      background: #1a1a2e; border-radius: 12px; padding: 1.5rem;
+      margin: 1.2rem 0; overflow-x: auto;
+    }
+    .code-block pre { color: #e2e8f0; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.83rem; line-height: 1.7; }
+    .code-label {
+      font-size: 0.75rem; font-weight: 600; color: var(--accent);
+      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.8rem;
+    }
+
+    /* DEMO OUTPUT GRID */
+    .demo-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5rem; margin: 2rem 0;
+    }
+
+    /* SCREENSHOT */
+    .screenshot-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      box-shadow: var(--card-shadow);
+    }
+    .screenshot-box img { width: 100%; display: block; }
+    .screenshot-box .caption {
+      padding: 0.7rem 1rem; font-size: 0.82rem; font-weight: 600;
+      color: var(--muted); text-align: center; border-top: 1px solid var(--border);
+    }
+
+    /* CALLOUT */
+    .callout {
+      background: rgba(108,99,255,0.06); border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0; padding: 1rem 1.2rem;
+      margin: 1.2rem 0; font-size: 0.92rem; color: var(--text);
+    }
+
+    /* STAT CARDS */
+    .stat-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1rem; margin: 1.5rem 0;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+      box-shadow: var(--card-shadow);
+    }
+    .stat-card .stat-num {
+      font-size: 1.6rem; font-weight: 700; color: var(--accent);
+      letter-spacing: -1px; line-height: 1;
+    }
+    .stat-card .stat-label {
+      font-size: 0.82rem; color: var(--muted); margin-top: 0.4rem;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 2rem; color: var(--muted);
+      font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem;
+    }
+
+    @media (max-width: 600px) {
+      .demo-grid { grid-template-columns: 1fr; }
+      .stat-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">GG</a>
+    <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="project-type">Applied Generative AI</span>
+    <h1>FoodVision:<br><span>Image-Based Food Recognition & Calorie Estimation</span></h1>
+    <p class="hero-desc">
+      A computer vision system that identifies food from a single photo, detects likely ingredients, and estimates calorie content. Built with CLIP ViT-B/32 for zero-shot food recognition, matched against 249,000+ ingredient embeddings from the USDA FoodData Central database, and served via FastAPI running inside Docker.
+    </p>
+    <div class="tags">
+      <span class="tag">PyTorch</span>
+      <span class="tag">CLIP</span>
+      <span class="tag">FastAPI</span>
+      <span class="tag">Docker</span>
+      <span class="tag">Computer Vision</span>
+      <span class="tag">Zero-Shot Learning</span>
+      <span class="tag">USDA Data</span>
+    </div>
+    <div class="hero-links">
+      <a href="https://github.com/gupta-garima/foodvision-fastapi" target="_blank" class="btn btn-primary">View on GitHub</a>
+      <a href="../index.html#projects" class="btn btn-outline">← Back</a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- STATS -->
+  <div class="section">
+    <p class="section-label">By the Numbers</p>
+    <h2>Scale of the System</h2>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">249K+</div>
+        <div class="stat-label">Ingredient embeddings stored as PyTorch tensors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">400M</div>
+        <div class="stat-label">Image-text pairs CLIP was pre-trained on</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3-layer</div>
+        <div class="stat-label">Calorie estimation fallback system</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- PIPELINE -->
+  <div class="section">
+    <p class="section-label">Architecture</p>
+    <h2>Three-Stage Pipeline</h2>
+    <p>Each image request flows through three sequential stages, from visual recognition to nutritional output:</p>
+    <table>
+      <thead>
+        <tr><th>Stage</th><th>Component</th><th>What it Does</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Food Recognition</td><td>CLIP ViT-B/32 encodes the image and matches it to food labels via cosine similarity</td></tr>
+        <tr><td>2</td><td>Ingredient Detection</td><td>Image embedding compared against 249,000+ precomputed ingredient vectors from USDA data</td></tr>
+        <tr><td>3</td><td>Calorie Estimation</td><td>3-layer fallback: direct USDA match, ingredient aggregation, then fuzzy string matching</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      All models, embeddings, and nutrition data run entirely inside Docker with no internet required. The 249K embeddings are split across 13 chunks (~40MB each) for efficient memory usage.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- LIVE DEMO OUTPUT -->
+  <div class="section">
+    <p class="section-label">Demo</p>
+    <h2>Real Predictions from the Model</h2>
+    <p>
+      Upload a food photo to the <code style="background:rgba(108,99,255,0.1); color:var(--accent); padding:0.1rem 0.4rem; border-radius:4px; font-size:0.9em;">POST /predict</code> endpoint and get back the identified food, confidence score, calorie estimate, and a ranked list of matched ingredients.
+    </p>
+
+    <div class="demo-grid">
+      <div class="screenshot-box">
+        <img src="foodvision-hotdog.png" alt="Hot dog prediction in FoodVision UI" />
+        <div class="caption">Hot dog: 290 kcal, 100% match score</div>
+      </div>
+      <div class="screenshot-box">
+        <img src="foodvision-banana.png" alt="Banana prediction in FoodVision UI" />
+        <div class="caption">Banana: 90 kcal, fallback token match</div>
+      </div>
+    </div>
+
+    <div class="demo-grid">
+      <div>
+        <div class="code-label">Hot Dog Response</div>
+        <div class="code-block">
+          <pre>{
+  "food": "hot dog",
+  "confidence": "33.94%",
+  "calorie_source": "food_match",
+  "matched_key_norm": "hot dog",
+  "match_score": "100.00%",
+  "calories_per_100g": 290,
+  "ingredients": [
+    "uncured beef hot dog",
+    "angus beef hot dog",
+    "beef hot dog",
+    ...
+  ]
+}</pre>
+        </div>
+      </div>
+      <div>
+        <div class="code-label">Banana Response</div>
+        <div class="code-block">
+          <pre>{
+  "food": "banana",
+  "confidence": "26.89%",
+  "calorie_source": "fallback_token",
+  "matched_key_norm": "banana",
+  "match_score": "75.00%",
+  "calories_per_100g": 90,
+  "ingredients": [
+    "banana",
+    "organic banana",
+    "fresh banana",
+    "sliced banana",
+    ...
+  ]
+}</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-label">API Call</div>
+    <div class="code-block">
+      <pre>curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@hotdog.jpg;type=image/jpeg"</pre>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- CALORIE SYSTEM -->
+  <div class="section">
+    <p class="section-label">Calorie Estimation</p>
+    <h2>3-Layer Fallback Strategy</h2>
+    <p>
+      When the predicted food name does not exactly match a USDA entry (different naming conventions, abbreviations, complex dishes), the system falls back through two additional layers rather than returning an error.
+    </p>
+    <table>
+      <thead>
+        <tr><th>Layer</th><th>Method</th><th>When Used</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Direct USDA Match</td><td>Exact string match between predicted food name and USDA database</td></tr>
+        <tr><td>2</td><td>Ingredient Aggregation</td><td>Calorie values summed from top matched ingredients if no direct match</td></tr>
+        <tr><td>3</td><td>Fuzzy Token Matching</td><td>RapidFuzz similarity search over normalized database keys as final fallback</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      The multi-layer design ensures a calorie estimate is always returned, even for ambiguous or uncommon dishes where exact matching fails.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Garima Gupta &nbsp;·&nbsp; <a href="../index.html" style="color:var(--accent); text-decoration:none;">Back to Portfolio</a></p>
+  </footer>
+
+</body>
+</html>

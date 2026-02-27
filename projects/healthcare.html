@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healthcare Pricing EDA | Garima Gupta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f9f9fb;
+      --surface: #ffffff;
+      --accent: #6c63ff;
+      --accent2: #a78bfa;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card-shadow: 0 4px 24px rgba(108,99,255,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 6vw;
+      background: rgba(249,249,251,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.5px; color: var(--accent); text-decoration: none; }
+    .back-link { font-size: 0.9rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .back-link:hover { color: var(--accent); }
+
+    .hero { padding: 8rem 6vw 4rem; max-width: 960px; margin: 0 auto; }
+    .project-type {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+      display: inline-block;
+      background: rgba(108,99,255,0.1); padding: 0.35rem 0.9rem; border-radius: 999px;
+    }
+    .hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; letter-spacing: -1.5px; line-height: 1.15; margin-bottom: 1.2rem; }
+    .hero h1 span { color: var(--accent); }
+    .hero-desc { font-size: 1.05rem; color: var(--muted); max-width: 700px; line-height: 1.8; }
+    .hero-links { display: flex; gap: 1rem; margin-top: 2rem; }
+    .btn { padding: 0.75rem 1.6rem; border-radius: 999px; font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all 0.2s; display: inline-block; }
+    .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+    .btn-outline:hover { background: rgba(108,99,255,0.06); transform: translateY(-2px); }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .tag { background: rgba(108,99,255,0.08); color: var(--accent); padding: 0.3rem 0.9rem; border-radius: 999px; font-size: 0.82rem; font-weight: 500; border: 1px solid rgba(108,99,255,0.15); }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    .section { padding: 3.5rem 6vw; max-width: 960px; margin: 0 auto; }
+    .section-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+    .section h2 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 700; letter-spacing: -0.8px; margin-bottom: 1.2rem; }
+    .section p { color: var(--muted); font-size: 0.97rem; line-height: 1.8; margin-bottom: 0.8rem; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin: 2rem 0; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem 1.2rem; box-shadow: var(--card-shadow); text-align: center; }
+    .stat-value { font-size: 2rem; font-weight: 700; color: var(--accent); letter-spacing: -1px; }
+    .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; font-weight: 500; }
+
+    /* LEAD CARD */
+    .lead-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: var(--card-shadow); margin: 0;
+      display: flex; flex-direction: column;
+    }
+    .lead-card img { width: 100%; display: block; object-fit: contain; background: #fff; }
+    .leads-grid-2 .lead-card img { height: 230px; }
+    .leads-grid-3 .lead-card img { height: 185px; }
+    .lead-body { padding: 1rem 1.2rem; flex: 1; display: flex; flex-direction: column; }
+    .lead-num { font-size: 0.72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 0.25rem; }
+    .lead-title { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; line-height: 1.35; }
+    .lead-insight {
+      background: rgba(108,99,255,0.06); border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0; padding: 0.65rem 0.9rem;
+      font-size: 0.83rem; color: var(--text); line-height: 1.65; margin-top: auto;
+    }
+    .lead-insight strong { color: var(--accent); }
+
+    /* GRID LAYOUTS */
+    .leads-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1.5rem 0; align-items: stretch; }
+    .leads-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin: 1.5rem 0; align-items: stretch; }
+    .lead-wide { grid-column: 1 / -1; }
+
+    .callout {
+      background: rgba(108,99,255,0.06); border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0; padding: 1rem 1.2rem;
+      margin: 1.5rem 0; font-size: 0.95rem; color: var(--text); line-height: 1.7;
+    }
+
+    footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+
+    @media (max-width: 640px) {
+      .stats-row, .leads-grid-2, .leads-grid-3 { grid-template-columns: 1fr; }
+      .lead-wide { grid-column: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">GG</a>
+    <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+  </nav>
+
+  <div class="hero">
+    <span class="project-type">Healthcare Analytics &amp; Feature Engineering</span>
+    <h1>Hospital Pricing Anomaly Detection:<br><span>15 Investigative Leads on Medicare Inpatient Charges</span></h1>
+    <p class="hero-desc">
+      An exhaustive EDA on Medicare inpatient charge data, structured as 15 investigative business leads. Each lead follows a hypothesis, an analysis, and a production-ready feature. Methods span log-normalization, regional benchmarking, DRG peer comparison, Mahalanobis distance, market concentration, and payment efficiency, all designed to surface anomalous hospital billing behavior.
+    </p>
+    <div class="tags">
+      <span class="tag">Python</span>
+      <span class="tag">Pandas</span>
+      <span class="tag">NumPy</span>
+      <span class="tag">Matplotlib</span>
+      <span class="tag">Seaborn</span>
+      <span class="tag">Mahalanobis Distance</span>
+      <span class="tag">DRG Analysis</span>
+      <span class="tag">Healthcare Pricing</span>
+      <span class="tag">Feature Engineering</span>
+    </div>
+    <div class="hero-links">
+      <a href="../index.html#projects" class="btn btn-outline">← Back</a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- OVERVIEW -->
+  <div class="section">
+    <p class="section-label">Overview</p>
+    <h2>Why Hospital Pricing Is Hard to Benchmark</h2>
+    <p>
+      Medicare inpatient charges vary by orders of magnitude across providers, DRGs, and regions. A hospital charging 5x the national average may be operating in a high-cost region, serving a complex patient mix, or genuinely outlying in ways that signal anomalous billing. Separating structural factors from provider-level choice requires layered feature engineering.
+    </p>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">15</div>
+        <div class="stat-label">Investigative leads<br>and features built</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">DRG</div>
+        <div class="stat-label">Peer group benchmarking<br>across diagnosis groups</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">4</div>
+        <div class="stat-label">US regions analyzed<br>for geographic ladders</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- LEADS 1-2 -->
+  <div class="section">
+    <p class="section-label">Leads 1 & 2</p>
+    <h2>Charge Distribution & The Payments Gap</h2>
+    <div class="leads-grid-2">
+      <div class="lead-card">
+        <img src="hc_l1_charges_dist.png" alt="Log-scaled charge distribution by region" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 1</p>
+          <p class="lead-title">Charges are right-skewed; log scale and region context clarify tails</p>
+          <p class="lead-insight"><strong>Business insight:</strong> Raw charges exaggerate outliers. Log-scaling and regional breakdowns reveal that a small set of providers bills orders of magnitude above peers, and those outliers cluster in specific regions, a pattern invisible at the raw scale.</p>
+        </div>
+      </div>
+      <div class="lead-card">
+        <img src="hc_l2_payments_scatter.png" alt="Charges vs total payments scatter" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 2</p>
+          <p class="lead-title">Payments vs charges: linear core with superlinear outliers</p>
+          <p class="lead-insight"><strong>Business insight:</strong> Most providers apply a consistent markup. But a significant tail bills disproportionately more than they collect, signaling chargemaster inflation decoupled from economic reality. These superlinear outliers are prime audit targets for insurers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- LEADS 3-4 -->
+  <div class="section">
+    <p class="section-label">Leads 3 & 4</p>
+    <h2>Medicare Markup Ratios & DRG Peer Z-Scores</h2>
+    <div class="leads-grid-2">
+      <div class="lead-card">
+        <img src="hc_l3_medicare_ratio.png" alt="Charge-to-Medicare ratio by region" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 3</p>
+          <p class="lead-title">Charge-to-Medicare ratio reveals structural market differences</p>
+          <p class="lead-insight"><strong>Business insight:</strong> Medicare sets a regulated floor. The ratio of gross charge to Medicare payment exposes how aggressively providers inflate list prices. Regional variation in this ratio reflects local market power, not clinical differences.</p>
+        </div>
+      </div>
+      <div class="lead-card">
+        <img src="hc_l4_drg_zscore.png" alt="Within-DRG charge z-score distribution" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 4</p>
+          <p class="lead-title">Within-DRG z-scores surface standardized peer outliers</p>
+          <p class="lead-insight"><strong>Business insight:</strong> Comparing providers against DRG peers eliminates case-mix bias. A z-score above 3 within a DRG identifies hospitals whose charges cannot be explained by procedure type alone, pointing to provider-level pricing choices.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- LEADS 5-6 -->
+  <div class="section">
+    <p class="section-label">Leads 5 & 6</p>
+    <h2>Multivariate Outliers & Top-Coded Inflation</h2>
+    <div class="leads-grid-2">
+      <div class="lead-card">
+        <img src="hc_l5_mahalanobis.png" alt="Mahalanobis distance ECDF across providers" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 5</p>
+          <p class="lead-title">Mahalanobis distance catches jointly anomalous providers</p>
+          <p class="lead-insight"><strong>Business insight:</strong> A provider can appear normal on any single metric while being jointly anomalous across charges, payments, and Medicare simultaneously. MD catches these hidden outliers that single-dimension thresholds miss, especially useful when billing relationships are highly correlated.</p>
+        </div>
+      </div>
+      <div class="lead-card">
+        <img src="hc_l6_p99_scaling.png" alt="DRG p99-scaled charges" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 6</p>
+          <p class="lead-title">DRG p99 scaling isolates top-coded inflation</p>
+          <p class="lead-insight"><strong>Business insight:</strong> Dividing each charge by its DRG's 99th percentile neutralizes scale differences and highlights providers that consistently breach the extreme ceiling. A binary top-coded flag created from this feature is directly usable in model training and audit prioritization.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- LEADS 7-8 -->
+  <div class="section">
+    <p class="section-label">Leads 7 & 8</p>
+    <h2>Regional Ladders & Market Concentration</h2>
+    <div class="leads-grid-2">
+      <div class="lead-card">
+        <img src="hc_l7_region_ladder.png" alt="Region pricing structure across DRGs" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 7</p>
+          <p class="lead-title">Geographic pricing ladders persist across DRGs; residuals isolate provider choice</p>
+          <p class="lead-insight"><strong>Business insight:</strong> Once regional baselines are subtracted, residuals reveal that provider-level discretion adds meaningful spread on top of geographic factors. Audits cannot stop at regional benchmarking alone: the within-region outliers are where the actionable signals are.</p>
+        </div>
+      </div>
+      <div class="lead-card">
+        <img src="hc_l8_concentration.png" alt="DRG-State market concentration" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 8</p>
+          <p class="lead-title">DRG-State market concentration correlates with pricing power</p>
+          <p class="lead-insight"><strong>Business insight:</strong> DRG-State combinations dominated by a few providers enable pricing power. Concentration measures (discharge share, Lorenz curve) are structural pricing drivers invisible at the claim level, and critical context for why some markets chronically overprice specific procedures.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- LEADS 9-10 -->
+  <div class="section">
+    <p class="section-label">Leads 9 & 10</p>
+    <h2>Pricing Tilt & Per-Discharge Unit Economics</h2>
+    <div class="leads-grid-2">
+      <div class="lead-card">
+        <img src="hc_l9_pricing_tilt.png" alt="Pricing tilt distribution vs Medicare baseline" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 9</p>
+          <p class="lead-title">Pricing tilt measures markup aggressiveness vs Medicare</p>
+          <p class="lead-insight"><strong>Business insight:</strong> High tilt signals negotiation exposure: hospitals with the most aggressive chargemaster strategies relative to their Medicare baseline are also the most contentious counterparties for commercial payers. Tilt serves as a payer risk score at the provider level.</p>
+        </div>
+      </div>
+      <div class="lead-card">
+        <img src="hc_l10_per_discharge.png" alt="Per-discharge charge normalization" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 10</p>
+          <p class="lead-title">Per-discharge normalization reveals true unit economics</p>
+          <p class="lead-insight"><strong>Business insight:</strong> High-volume providers can obscure inefficiency behind total spending. Normalizing by discharge count exposes the per-patient cost outlier, showing that markup is a pricing strategy, not just a function of patient load. This is the right denominator for policy intervention.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- LEADS 11-12 -->
+  <div class="section">
+    <p class="section-label">Leads 11 & 12</p>
+    <h2>Local Outliers & Robust Cross-Market Benchmarking</h2>
+    <div class="leads-grid-2">
+      <div class="lead-card">
+        <img src="hc_l11_state_residuals.png" alt="State-DRG residuals showing local deviations" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 11</p>
+          <p class="lead-title">State-DRG residuals uncover localized overpricing</p>
+          <p class="lead-insight"><strong>Business insight:</strong> Even within the same DRG and state, some providers consistently charge above peers. These residuals expose localized behavior that would be masked by national or regional benchmarks. They are the right granularity for state-level insurance oversight and network negotiations.</p>
+        </div>
+      </div>
+      <div class="lead-card">
+        <img src="hc_l12_iqr_scaling.png" alt="IQR-scaled charges across DRGs" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 12</p>
+          <p class="lead-title">IQR-scaled charges provide robust cross-market comparison</p>
+          <p class="lead-insight"><strong>Business insight:</strong> Unlike mean or p99 scaling, IQR scaling is resistant to extreme outliers distorting the benchmark. It produces a unitless comparator that is fair across DRGs with very different price distributions, making it the right tool for multi-DRG portfolio reviews.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- LEADS 13-14-15 -->
+  <div class="section">
+    <p class="section-label">Leads 13, 14 & 15</p>
+    <h2>Intra-Provider Consistency, Payment Leverage & Regional Premiums</h2>
+    <div class="leads-grid-3">
+      <div class="lead-card">
+        <img src="hc_l13_self_residuals.png" alt="Provider self-residuals showing internal inconsistency" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 13</p>
+          <p class="lead-title">Provider self-residuals detect selective internal markup</p>
+          <p class="lead-insight"><strong>Business insight:</strong> A hospital that prices one DRG far above its own internal norm is applying selective markup. Self-residuals expose these intra-provider inconsistencies, which are harder to spot with external peer comparison and often signal targeted billing strategies for specific procedures.</p>
+        </div>
+      </div>
+      <div class="lead-card">
+        <img src="hc_l14_payment_eff.png" alt="Payment efficiency ratio by provider" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 14</p>
+          <p class="lead-title">Payment efficiency (Total / Medicare) exposes commercial leverage</p>
+          <p class="lead-insight"><strong>Business insight:</strong> Providers who consistently collect well above Medicare rates from their full payer mix hold strong commercial negotiating leverage. This ratio identifies at-risk markets for payers and surfaces systemic inequities where providers extract above-baseline payments across their entire patient population.</p>
+        </div>
+      </div>
+      <div class="lead-card">
+        <img src="hc_l15_region_residuals.png" alt="Region-DRG residuals isolating supra-regional premiums" />
+        <div class="lead-body">
+          <p class="lead-num">Lead 15</p>
+          <p class="lead-title">Region-DRG residuals isolate supra-regional pricing premiums</p>
+          <p class="lead-insight"><strong>Business insight:</strong> After removing regional medians, remaining residuals reflect pure provider-level discretion. Providers with large positive residuals are charging premiums that cannot be explained by geography, DRG mix, or volume. These are the highest-priority cases for auditors and contract reviewers.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Key design principle:</strong> Each lead targets a distinct axis of pricing behavior: magnitude, peer comparison, market structure, geography, volume, and internal consistency. When these 15 features are combined in a model, providers that score anomalously on multiple dimensions simultaneously are flagged with far higher confidence than any single signal could achieve.
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <footer>
+    <p>© 2026 Garima Gupta &nbsp;·&nbsp; <a href="../index.html" style="color:var(--accent); text-decoration:none;">Back to Portfolio</a></p>
+  </footer>
+
+</body>
+</html>
