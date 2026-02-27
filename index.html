@@ -461,15 +461,15 @@
 
       /* Hero */
       .hero { padding: 5rem 6vw 3rem; align-items: flex-start; }
-      .hero-inner {
-        grid-template-columns: 90px 1fr;
-        grid-template-areas:
-          "photo left"
-          "skills skills";
-        column-gap: 1.2rem;
-        row-gap: 2rem;
+      .hero-inner { display: block; }
+      .hero-photo {
+        float: right;
+        width: 90px; height: 90px;
+        margin-left: 1.2rem;
+        margin-bottom: 0.5rem;
+        margin-top: 0.3rem;
       }
-      .hero-photo { width: 90px; height: 90px; margin-top: 0.4rem; }
+      .hero-skills-wrap { clear: both; margin-top: 1.5rem; }
       .hero h1 { font-size: 2rem; letter-spacing: -1px; }
 
       /* Sections */
